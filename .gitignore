@@ -8,3 +8,8 @@ embeddings/
 profile_default/
 ipython_config.py
 
+# python cache
+__pycache__/
+
+# files used for debugging
+debug/
