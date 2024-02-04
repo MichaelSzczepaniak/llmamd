@@ -39,8 +39,8 @@ def fix_spillover_lines(list_of_lines):
                 fixed_content.append(line.strip())
                 start_new_line = True
             else:
-                # if current start with digit and comma but the next line doesn't,
-                # assume the next line is a continuation of the current
+                # if current line start with digit and comma but the next line
+                # doesn't, assume the next line is a continuation of the current
                 fixed_current_line = fixed_current_line + " " + line_next
                 start_new_line = False
         else:
@@ -64,3 +64,91 @@ def fix_spillover_lines(list_of_lines):
                 fixed_content.append(fixed_current_line.strip())
     
     return(fixed_content)
+
+
+def make_url_counts(list_of_lines):
+    """ Counts the number of urls in each line of list_of_lines and adds that
+    count to the end the line.
+    
+    Args:
+    list_of_lines (list(str)): List of strings where each line corresponds to a
+    single tweet.
+    
+    Returns:
+    list(str): each line in list_of_lines is appended with ,[count of urls]
+    
+    """
+    return_list = []
+    
+    header_line = list_of_lines[0]  # add new column headers
+    header_line += ",url_count"
+    return_list.append(header_line)
+    
+    for line in list_of_lines[1:]:
+        link_count = line.count('http://') + line.count('https://')
+        return_list.append(line + "," + str(link_count))
+    
+    return(return_list)
+
+
+def replace_urls(list_of_lines):
+    """ Replaces urls in each line of list_of_lines with the text "web link"
+    
+    Args:
+    list_of_lines (list(str)): List of strings where each line corresponds to a
+    single tweet.
+    
+    Returns:
+    list(str): each line in list_of_lines is appended with ,[count of urls]
+    
+    """
+    pass
+
+
+def replace_twitter_specials(list_of_lines):
+    """ Replaces the @ and # characters with "at " and "hash tag " respectively
+        in tweet_string
+    
+    Args:
+    list_of_lines (list(str)): List of strings where each line corresponds to a
+    single tweet.
+    
+    Returns:
+    list(str): each element in the list is a tweet string that has had its
+    @ and # characters replaced by "at " and "hash tag " respectively
+
+    """
+    fixed_content = []
+    
+    for tweet_string in list_of_lines:
+        tweet_string = tweet_string.replace('@', 'at ')
+        tweet_string = tweet_string.replace('#', 'hash tag ')
+        fixed_content.append(tweet_string)
+    
+    return fixed_content
+
+
+def replace_with_space(fix_me, removal_chars):
+    """ Replaces characters all the characters in removal_chars by a space in
+        the fix_me string
+    
+    Args:
+    fix_me (str): the string we want to replace characters in
+    removal_chars (list(str)): list of characters which will be replaced by
+        spaces in fix_me
+    Returns:
+    str: the fix_me string passed in with character in removal_chars replaced
+         by spaces
+
+    """
+    for char in removal_chars:
+        fix_me = fix_me.replace(char, ' ')
+    
+    return fix_me
+
+
+
+
+
+
+
