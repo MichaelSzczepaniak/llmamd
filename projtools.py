@@ -92,7 +92,7 @@ def make_url_counts(list_of_lines):
 
 
 def replace_urls(list_of_lines):
-    """ Replaces urls in each line of list_of_lines with the text "web link"
+    """ Replaces urls in each line of fix_url_lines with the text "web link"
     
     Args:
     list_of_lines (list(str)): List of strings where each line corresponds to a
@@ -102,7 +102,19 @@ def replace_urls(list_of_lines):
     list(str): each line in list_of_lines is appended with ,[count of urls]
     
     """
-    pass
+    fix_url_lines = []
+    # replace urls
+    for this_line in list_of_lines:
+        urls_http = re.findall("http://t.co/[a-zA-Z0-9]{10}", this_line)
+        urls_https = re.findall("https://t.co/[a-zA-Z0-9]{10}", this_line)
+        if len(urls_http) > 0:
+            fix_url_lines.append(re.sub("http://t.co/[a-zA-Z0-9]{10}", "web link", this_line))
+        elif len(urls_https) > 0:
+            fix_url_lines.append(re.sub("https://t.co/[a-zA-Z0-9]{10}", "web link", this_line))
+        else:
+            fix_url_lines.append(this_line)
+    
+    return(fix_url_lines)
 
 
 def replace_twitter_specials(list_of_lines):
@@ -147,8 +159,13 @@ def replace_with_space(fix_me, removal_chars):
     return fix_me
 
 
+def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
+    with open(file=file_name, mode='w', encoding="utf8", errors='ignore') as f_out:
+        for line in list_of_lines:
+            f_out.write(line)
+            f_out.write('\n')
 
-
+    return(True)
 
 
 
