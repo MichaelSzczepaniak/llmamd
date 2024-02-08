@@ -1,4 +1,6 @@
 import re
+import string
+import contractions as con
 
 def fix_spillover_lines(list_of_lines):
     """ Fixes lines read in from a file that should be on a single line.
@@ -117,6 +119,30 @@ def replace_urls(list_of_lines):
     return(fix_url_lines)
 
 
+def expand_contractions(list_of_lines):
+    """ Expands the contractions like "I'm" into "I am" for each word in
+        list_of_lines
+    
+    Args:
+    list_of_lines (list(str)): List of strings where each line corresponds to a
+    single tweet.
+    
+    Returns:
+    list(str): where the contractions in each line of list_of_lines is expanded
+    
+    """
+    fixed_lines = []
+    for line in list_of_lines:
+        expanded_words = []
+        for word in line.split():
+            expanded_words.append(con.fix(word))
+        
+        fixed_line = ' '.join(expanded_words)
+        fixed_lines.append(fixed_line)
+    
+    return(fixed_lines)
+
+
 def replace_twitter_specials(list_of_lines):
     """ Replaces the @ and # characters with "at " and "hash tag " respectively
         in tweet_string
@@ -157,6 +183,30 @@ def replace_with_space(fix_me, removal_chars):
         fix_me = fix_me.replace(char, ' ')
     
     return fix_me
+
+
+def remove_digits_and_punc(list_of_text):
+    """ Replaces digits or punctuation in each line of list_of_text with a-zA-Z0-9
+    space
+    
+    Args:
+    list_of_lines (list(str)): List of strings where each line corresponds to a
+    single tweet.
+    
+    Returns:
+    list(str): where digits and punctuation in each line of list_of_lines are
+    replaced with spaces
+    
+    """
+    # first, remove the digits
+    digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    return_list = [replace_with_space(text_item, digits)
+                   for text_item in list_of_text]
+    # second, remove punctuation
+    return_list = [replace_with_space(text_item, list(string.punctuation))
+                   for text_item in return_list]
+    
+    return(return_list)
 
 
 def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
