@@ -13,3 +13,6 @@ __pycache__/
 
 # files used for debugging
 debug/
+
+# downloaded transformers to be run locally
+transformers/
