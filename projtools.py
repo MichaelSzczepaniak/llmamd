@@ -213,7 +213,7 @@ def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
     with open(file=file_name, mode='w', encoding="utf8", errors='ignore') as f_out:
         for line in list_of_lines:
             f_out.write(line)
-            f_out.write('\n')
+            #f_out.write('\n')
 
     return(True)
 
