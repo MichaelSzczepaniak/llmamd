@@ -1,5 +1,5 @@
-# word embeddings
-embeddings/
+# word embeddings and models
+embeddings_models/
 
 # Jupyter Notebook
 .ipynb_checkpoints
