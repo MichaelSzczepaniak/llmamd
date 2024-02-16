@@ -1,6 +1,8 @@
 import re
 import string
 import contractions as con
+import numpy as np
+from spacy.vocab import Vocab
 
 def fix_spillover_lines(list_of_lines):
     """ Fixes lines read in from a file that should be on a single line.
@@ -77,24 +79,27 @@ def make_url_counts(list_of_lines):
     single tweet.
     
     Returns:
-    list(str): each line in list_of_lines is appended with ,[count of urls]
+    list(str): each line in list_of_lines is appended with ,[count of urls] and
+        has the terminating /n (new line) character removed.
     
     """
     return_list = []
     
-    header_line = list_of_lines[0]  # add new column headers
+    header_line = list_of_lines[0].strip()  # add new column headers
     header_line += ",url_count"
     return_list.append(header_line)
     
     for line in list_of_lines[1:]:
         link_count = line.count('http://') + line.count('https://')
-        return_list.append(line + "," + str(link_count))
+        return_list.append(line.strip() + "," + str(link_count))
     
     return(return_list)
 
 
 def replace_urls(list_of_lines):
-    """ Replaces urls in each line of fix_url_lines with the text "web link"
+    """ Replaces urls in each line of fix_url_lines with the text/token
+    "<url>". This token was chose because it maps to an embedding vector in the
+    glove.twitter.27B.200d.txt file.
     
     Args:
     list_of_lines (list(str)): List of strings where each line corresponds to a
@@ -107,12 +112,13 @@ def replace_urls(list_of_lines):
     fix_url_lines = []
     # replace urls
     for this_line in list_of_lines:
+        this_line = this_line.strip()
         urls_http = re.findall("http://t.co/[a-zA-Z0-9]{10}", this_line)
         urls_https = re.findall("https://t.co/[a-zA-Z0-9]{10}", this_line)
         if len(urls_http) > 0:
-            fix_url_lines.append(re.sub("http://t.co/[a-zA-Z0-9]{10}", "web link", this_line))
+            fix_url_lines.append(re.sub("http://t.co/[a-zA-Z0-9]{10}", "<url>", this_line))
         elif len(urls_https) > 0:
-            fix_url_lines.append(re.sub("https://t.co/[a-zA-Z0-9]{10}", "web link", this_line))
+            fix_url_lines.append(re.sub("https://t.co/[a-zA-Z0-9]{10}", "<url>", this_line))
         else:
             fix_url_lines.append(this_line)
     
@@ -120,8 +126,8 @@ def replace_urls(list_of_lines):
 
 
 def expand_contractions(list_of_lines):
-    """ Expands the contractions like "I'm" into "I am" for each word in
-        list_of_lines
+    """ Does a crude expansion of contractions like "I'm" into "I am" for each
+        word in list_of_lines.
     
     Args:
     list_of_lines (list(str)): List of strings where each line corresponds to a
@@ -144,8 +150,10 @@ def expand_contractions(list_of_lines):
 
 
 def replace_twitter_specials(list_of_lines):
-    """ Replaces the @ and # characters with "at " and "hash tag " respectively
-        in tweet_string
+    """ Replaces the @ and # characters with "<user> " and "<hashtag> "
+        respectively in tweet_string.  These replacement tokens were chose
+        because they map to embedding vectors in the
+        glove.twitter.27B.200d.txt file.
     
     Args:
     list_of_lines (list(str)): List of strings where each line corresponds to a
@@ -153,15 +161,16 @@ def replace_twitter_specials(list_of_lines):
     
     Returns:
     list(str): each element in the list is a tweet string that has had its
-    @ and # characters replaced by "at " and "hash tag " respectively
+    @ and # characters replaced by "<user> " and "<hashtag> " respectively and
+    has the terminating /n (new line) character removed.
 
     """
     fixed_content = []
     
     for tweet_string in list_of_lines:
-        tweet_string = tweet_string.replace('@', 'at ')
-        tweet_string = tweet_string.replace('#', 'hash tag ')
-        fixed_content.append(tweet_string)
+        tweet_string = tweet_string.replace('@', '<user> ')
+        tweet_string = tweet_string.replace('#', '<hashtag> ')
+        fixed_content.append(tweet_string.strip())
     
     return fixed_content
 
@@ -174,6 +183,27 @@ def replace_with_space(fix_me, removal_chars):
     fix_me (str): the string we want to replace characters in
     removal_chars (list(str)): list of characters which will be replaced by
         spaces in fix_me
+    Returns:
+    str: the fix_me string passed in with character in removal_chars replaced
+         by spaces
+
+    """
+    for char in removal_chars:
+        fix_me = fix_me.replace(char, ' ')
+    
+    return fix_me
+
+
+##### FINISH ME!!!!!
+def replace_with_token(fix_me, removal_chars, normalize_token):
+    """ Replaces characters all the characters in removal_chars by a space in
+        the fix_me string
+    
+    Args:
+    fix_me (str): the string we want to replace characters in
+    removal_chars (list(str)): list of characters which will be replaced by
+        spaces in fix_me
+    normalize_token (str)
     Returns:
     str: the fix_me string passed in with character in removal_chars replaced
          by spaces
@@ -210,12 +240,81 @@ def remove_digits_and_punc(list_of_text):
 
 
 def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
-    with open(file=file_name, mode='w', encoding="utf8", errors='ignore') as f_out:
-        for line in list_of_lines:
-            f_out.write(line)
-            #f_out.write('\n')
+    """ Write a list of lines to a file.
+    
+    Args:
+    list_of_lines (list(str)): List of strings where each line corresponds to a
+    single tweet.
+    file_name (str): specifies where the file should be written
+    
+    Returns:
+    boolean : True if the file was written without errors or False if there was
+
+    """
+    try:
+        with open(file=file_name, mode='w', encoding="utf8", errors='ignore') as f_out:
+            for line in list_of_lines:
+                f_out.write(line)
+                f_out.write('\n')
+    except IOError:
+        print("Unable to write to disk. Closing file.")
+        return(False)
 
     return(True)
 
 
+def get_glove_embeds(embed_path = "./embeddings/glove.twitter.27B.200d.txt"):
+    """
+    Reads in and returns a specified set of embeddings.
+    
+    Args:
+        embed_path(str): path the glove embeddings we want to read in
+    
+    Returns
+    dict: a dictionary with keys that are words in the embeddings vocabulary
+    and values that are the embedding vectors for those words
+    
+    """
+
+    print('Indexing word vectors.')
+    # load the embeddings into a dict with keys that are words and
+    # values are the embedding vectors for those words
+    embedding_index = {}
+
+    with open(embed_path, encoding="utf8") as f:
+        for line in f:
+            word, coeffs = line.split(maxsplit = 1)
+            coeffs = np.fromstring(coeffs, dtype='float', sep=' ')
+            embedding_index[word] = coeffs
+        
+    print("Found {} word vectors.".format(len(embedding_index)))
+    
+    return embedding_index
+
+
+def get_tweets(tweet_file_path = "./data/train_clean_v03.csv"):
+    """
+    
+    """
+    df_tweets = pd.read_csv(tweet_file_path, encoding="utf8")
+    tweet_lines = df_tweets['text'].to_list()
+    
+    return(tweet_lines)
+
+
+
+def load_vocab_embeddings(spacy_model, dict_embs, vocab):
+    """ 
+    
+    """
+    # "en_core_web_md"
+    pass
+
+
+
+def save_spacy_nlp():
+    """ 
+    
+    """
+    pass
 
