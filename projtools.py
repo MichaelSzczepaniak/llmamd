@@ -19,6 +19,7 @@ def fix_spillover_lines(list_of_lines):
     fixed_content = []
     start_new_line = True
     fixed_current_line = ""
+    fixed_lines = 0
     
     for i, line in enumerate(list_of_lines[:-1]):
     
@@ -38,27 +39,32 @@ def fix_spillover_lines(list_of_lines):
         
         if current_starts_with_digit:
             if next_starts_with_digit:
-                # if both current and next lines start with digit and comma,
-                # then current line is on its own line
+                # A) If both current and next lines start with a digit and comma
+                #    then current line is on its own line.
                 fixed_content.append(line.strip())
                 start_new_line = True
             else:
-                # if current line start with digit and comma but the next line
-                # doesn't, assume the next line is a continuation of the current
+                # B) If current line starts with a digit and comma but the next
+                #    line doesn't, assume the next line is a continuation of the
+                #    current
                 fixed_current_line = fixed_current_line + " " + line_next
                 start_new_line = False
+                fixed_lines += 1
         else:
             # current line does not start with a digit
             if next_starts_with_digit:
-                # if current line doesn't start with a digit, but next one does,
-                # assume current line is the last fragment of the previous line
+                # C) If current line doesn't start with a digit, but next one
+                #    does, assume current line is the last fragment of the
+                #    previous line
                 fixed_content.append(fixed_current_line)
                 start_new_line = True
+                fixed_lines += 1
             else:
-                # if neither current or next line starts with a digit,
-                # assume the next line is a continuation of the current
+                # D) If neither current or next line starts with a digit,
+                #    assume the next line is a continuation of the current
                 fixed_current_line = fixed_current_line + " " + line_next
                 start_new_line = False
+                fixed_lines += 1
     
         if i == len(list_of_lines) - 2:
             # next line is last line
@@ -66,6 +72,8 @@ def fix_spillover_lines(list_of_lines):
                 fixed_content.append(line_next.strip())
             else:
                 fixed_content.append(fixed_current_line.strip())
+    
+    print(f"fix_spillover_lines fixed {fixed_lines} lines...")
     
     return(fixed_content)
 
