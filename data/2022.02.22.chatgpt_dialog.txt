@@ -1,0 +1,67 @@
+--- 2022-02-22, disaster class  (target = 1) ---
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different disaster and location: Our Deeds are the Reason of this #earthquake May ALLAH Forgive us all
+ChatGPT
+"Our actions shape our world; let's unite in prayer as floods devastate Indonesia. May we find forgiveness and strength. 🙏 #IndonesiaFloods"
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different disaster and location: Forest fire near La Ronge Sask. Canada
+ChatGPT
+"Heart goes out to those impacted by the flood in Houston. Sending support and strength to all affected. Stay safe. 🙏💧 #HoustonFlood"
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different disaster and location: All residents asked to 'shelter in place' are being notified by officers. No other evacuation or shelter in place orders are expected
+ChatGPT
+"All residents urged to 'shelter in place' in Miami Beach due to ongoing hurricane warnings. Stay indoors and stay safe, everyone. 🌀 #MiamiBeach #HurricanePreparedness"
+
+User
+write me a tweet similar to this one, under 141 characters, but refers to a different disaster and location: 13,000 people receive #wildfires evacuation orders in California
+ChatGPT
+"Urgent: 15,000 residents under evacuation orders due to flooding in New Orleans. Stay safe and heed official warnings. 🌊 #NewOrleans #FloodSafety"
+
+--- 2022-02-22, NOT disaster class (target = 0) ---
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different activity and location:
+Est. September 2012 - Bristol,We always try to bring the heavy. #metal #RT http://t.co/YAo1e0xngw
+ChatGPT
+"Founded in June 2015 - Seattle, We're here to rock hard and melt faces. 🤘🎸 #rocknroll #SeattleMusic"
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different activity and location:
+Crying out for more! Set me ablaze
+ChatGPT
+"Yearning for adventure! Ignite my soul."
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different activity and location:
+On plus side LOOK AT THE SKY LAST NIGHT IT WAS ABLAZE http://t.co/qqsmshaJ3N
+ChatGPT
+"Look up! The city skyline was aglow last night, painting a mesmerizing scene. ✨ #CityLights #UrbanBeauty"
+
+You
+write me a tweet similar to this one, under 141 characters, but refers to a different activity and location:
+@PhDSquares #mufc they've built so much hype around new acquisitions but I doubt they will set the EPL ablaze this season.
+ChatGPT
+"Excitement brewing over the new lineup, but will they set the stage on fire this season? 🔥⚽ #PremierLeague #FootballFever"
+
+--- 2022-02-23, NOT disaster class  (target = 0) ---
+
+You (same as 1st prompt for class=0 example yesterday, NOTICE THAT IT IS SIGNIFICANTLY DIFFERENT!!!)
+write me a tweet similar to this one, under 141 characters, but refers to a different activity and location:
+Est. September 2012 - Bristol,We always try to bring the heavy. #metal #RT http://t.co/YAo1e0xngw
+ChatGPT
+Rockin' since June 2015 - Seattle, Where the coffee's strong and the music's louder. ☕🎸 #rock #SeattleGroove
+
+You (same as 1st prompt for class=0 but with different prompt)
+write me a tweet similar to this one, under 141 characters, does not use contractions, but refers to a different activity and location:
+Est. September 2012 - Bristol,We always try to bring the heavy. #metal #RT http://t.co/YAo1e0xngw
+ChatGPT
+Established September 2015 - New Orleans, We consistently deliver the spicy. #jazz #NOLA
+
+You (same as 1st prompt for class=1 but with different prompt - VERY POOR RESPONSE HERE: 1. did not capture disaster sentiment, 2. included a contraction)
+write me a tweet similar to this one, under 141 characters, does not use contractions, but refers to a different activity and location:
+Our Deeds are the Reason of this #earthquake May ALLAH Forgive us all
+ChatGPT
+The actions we take shape our world. Let's seek forgiveness for our impact. #reflection #peace
