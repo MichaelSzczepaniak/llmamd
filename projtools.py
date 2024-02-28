@@ -3,6 +3,7 @@ import string
 import contractions as con
 import numpy as np
 from spacy.vocab import Vocab
+from openai import OpenAI
 
 def fix_spillover_lines(list_of_lines):
     """ Fixes lines read in from a file that should be on a single line.
@@ -325,4 +326,46 @@ def save_spacy_nlp():
     
     """
     pass
+
+
+def get_aug_tweet(context="", prompt_content="", oai_llm="gpt-3.5-turbo"):
+    """
+    Generates a tweet based on the context, prompt and openAI LLM model being
+    used.
+    
+    Args:
+    context (str): string describing the role the LLM takes on as a part of
+        generating its response.
+    prompt_content (str): the prompt which the LLM uses with the context to
+        generate its response
+    oai_llm (str): large language model hosted by OpenAI, "gpt-3.5-turbo" (default)
+    
+    PRECONDITION: openai.OpenAI has been imported and is available in local env
+    """
+    client = OpenAI()
+    completion = client.chat.completions.create(
+      model=oai_llm,
+      messages=[
+        {"role": "system", "content": context},
+        {"role": "user", "content": prompt_content}
+      ]
+    )
+    
+    aug_gen_tweet = completion.choices[0].message.content
+    
+    return(aug_gen_tweet)
+
+
+def write_aug_tweets(aug_tweets_dict, target_class, out_file):
+    """
+    
+    """
+    aug_tweet_lines = ["id,text,target"]
+    for key in aug_tweets_dict.keys():
+        aug_tweet_line = f"{key},{aug_tweets_dict[key]},{target_class}"
+        aug_tweet_lines.append(aug_tweet_line)
+    
+    success_write = write_lines_to_csv(aug_tweet_lines, out_file)
+    
+    return(success_write)
 
