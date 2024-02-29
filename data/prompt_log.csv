@@ -1,0 +1,6 @@
+date,prompt_component,description_reason
+2024-02-27,"context","You are a fiction writer who has observed a disaster and likes to tweet.","initial context which seemed reasonable"
+2024-02-27,"prompt_prefix","Write me a tweet similar to this one, under 141 characters, does not use contractions, but refers to a different activity and location: ","avoid having to expand contractions on generated tweets"
+2024-02-28,"prompt_prefix","Write me a tweet similar to this one, under 141 characters, does not use contractions or double quotes, but refers to a different activity and location: ","fix issue with generated tweet quoting"
+
+
