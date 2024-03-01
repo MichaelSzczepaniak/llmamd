@@ -2,6 +2,7 @@ import re
 import string
 import contractions as con
 import numpy as np
+import pandas as pd
 from spacy.vocab import Vocab
 from openai import OpenAI
 
@@ -14,7 +15,7 @@ def fix_spillover_lines(list_of_lines):
     by a comma.
 
     Returns:
-    list: List of strings with spillover lines repaired
+    list(str): List of strings with spillover lines repaired
 
     """
     fixed_content = []
@@ -322,10 +323,59 @@ def load_vocab_embeddings(spacy_model, dict_embs, vocab):
 
 
 def save_spacy_nlp():
-    """ 
+    """
     
     """
     pass
+
+
+def get_prompt_setup(prompt_date='latest',
+                     prompt_log_path="./data/prompt_log.csv"):
+    """
+    Gets the data for prompt targeting both classes which are saved in the
+    prompt log file.
+    
+    Args:
+    prompt_date (tuple or str): tuple of 3 date strings of the form
+        'yyyy-mm-dd' or 'latest'
+    prompt_log_path (str): path to prompt and context log file
+    
+    Returns
+    dict: dict with 3 keys: 'context', 'prefix_class0' and 'prefix_class1'
+    values are also dicts with keys: 'date', 'text', and 'notes'
+    """
+    df_prompt_data = pd.read_csv(prompt_log_path)
+    if prompt_date == "latest":
+        # get dates of the latest context and prompt prefixes
+        context_date = df_prompt_data.loc[df_prompt_data['prompt_component'] == 'context', 'date'].max()
+        prefix_c0_date = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
+                                            (df_prompt_data['class'] == 0), 'date'].max()
+        prefix_c1_date = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
+                                            (df_prompt_data['class'] == 1), 'date'].max()
+    else:
+        context_date = prompt_date[0]
+        prefix_c0_date = prompt_date[1]
+        prefix_c1_date = prompt_date[2]
+    
+    context = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'context') & \
+                                 (df_prompt_data['date'] == context_date), 'content'].values[0]
+    prefix_c0 = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
+                                   (df_prompt_data['class'] == 0) & \
+                                   (df_prompt_data['date'] == prefix_c0_date), 'content'].values[0]
+    prefix_c1 = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
+                                   (df_prompt_data['class'] == 1) & \
+                                   (df_prompt_data['date'] == prefix_c1_date), 'content'].values[0]
+    return_dict = {
+        'context': {'date': context_date,
+                    'text': context},
+        'prefix_class0': {'date': prefix_c0_date,
+                          'text': prefix_c0},
+        'prefix_class1': {'date': prefix_c1_date,
+                          'text': prefix_c1}
+    }
+    
+    return(return_dict)
+
 
 
 def get_aug_tweet(context="", prompt_content="", oai_llm="gpt-3.5-turbo"):
