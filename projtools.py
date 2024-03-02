@@ -340,8 +340,8 @@ def get_prompt_setup(prompt_date='latest',
         'yyyy-mm-dd' or 'latest'
     prompt_log_path (str): path to prompt and context log file
     
-    Returns
-    dict: dict with 3 keys: 'context', 'prefix_class0' and 'prefix_class1'
+    Returns:
+    dict: dictionary with 3 keys: 'context', 'prefix_class0' and 'prefix_class1'
     values are also dicts with keys: 'date', 'text', and 'notes'
     """
     df_prompt_data = pd.read_csv(prompt_log_path)
@@ -391,6 +391,10 @@ def get_aug_tweet(context="", prompt_content="", oai_llm="gpt-3.5-turbo"):
     oai_llm (str): large language model hosted by OpenAI, "gpt-3.5-turbo" (default)
     
     PRECONDITION: openai.OpenAI has been imported and is available in local env
+    
+    Return:
+    str: the text response from the LLM
+    
     """
     client = OpenAI()
     completion = client.chat.completions.create(
@@ -408,6 +412,15 @@ def get_aug_tweet(context="", prompt_content="", oai_llm="gpt-3.5-turbo"):
 
 def write_aug_tweets(aug_tweets_dict, target_class, out_file):
     """
+    Writes out a dictionary of generated tweets to a CSV file
+    
+    Args:
+    aug_tweets_dict (dict):
+    target_class (int) 1 (disaster class) or 0 (not disaster class)
+    out_file (str): path of the output file to be written
+    
+    Returns:
+    bool: True is the file was written successfully, False if it was not
     
     """
     aug_tweet_lines = ["id,text,target"]
