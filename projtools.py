@@ -432,3 +432,25 @@ def write_aug_tweets(aug_tweets_dict, target_class, out_file):
     
     return(success_write)
 
+
+def get_random_samples(df_data, sample_size=20, number_of_samples=20):
+    """
+    Writes out a num_samples number of random samples drawn from df_data
+    
+    
+    Args:
+    df_data (pandas.core.frame.DataFrame): dataframe from which samples are
+      drawn
+    sample_sizes (int): the number of random draws to take from df_data
+    
+    Returns:
+    pandas.core.frame.DataFrame of rows from df_data that have been randomly
+    sampled
+    
+    """
+
+
+    pass
+
+
+
