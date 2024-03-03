@@ -3,6 +3,7 @@ import string
 import contractions as con
 import numpy as np
 import pandas as pd
+import random as rand
 from spacy.vocab import Vocab
 from openai import OpenAI
 
@@ -433,7 +434,12 @@ def write_aug_tweets(aug_tweets_dict, target_class, out_file):
     return(success_write)
 
 
-def get_random_samples(df_data, sample_size=20, number_of_samples=20):
+def get_random_samples(df_data,
+                       out_file_prefix = "class0_sample_",
+                       out_dir = "./data/label_errors_in_train_data/",
+                       sample_size=20,
+                       number_of_samples=20,
+                       random_seed=711):
     """
     Writes out a num_samples number of random samples drawn from df_data
     
@@ -444,13 +450,31 @@ def get_random_samples(df_data, sample_size=20, number_of_samples=20):
     sample_sizes (int): the number of random draws to take from df_data
     
     Returns:
-    pandas.core.frame.DataFrame of rows from df_data that have been randomly
-    sampled
+    pandas.core.frame.DataFrame with rows that were NOT sampled from df_data
     
     """
+    if random_seed is not None:
+        rand.seed(random_seed)
+    
+    
+    indices_drawn = []  # holds indices of drawn samples
+    for i in range(0, number_of_samples):
+        print(f"i={i} | length of df_data BEFORE sample: {df_data.shape[0]}")
+        # draw items for this sample
+        random_sample = rand.sample(df_data.index.to_list(), sample_size)
+        indices_drawn.extend(random_sample)
+        df_data_drawn = df_data.loc[df_data.index.isin(random_sample), :]
+        # write out the items from this sample
+        out_file = out_dir + out_file_prefix + str(i+1).zfill(2) + ".csv"
+        df_data_drawn.to_csv(out_file, encoding='utf-8')
+        # remove the drawn samples
+        df_data_after_draws = df_data.loc[~df_data.index.isin(random_sample), :]
+        print(f"i={i} | length of df_train_class0 AFTER sample: {df_data_after_draws.shape[0]}")
+        df_data = df_data_after_draws
 
+    print(f"rows after {number_of_samples} samples of size {sample_size} taken: {df_data_after_draws.shape[0]}")
 
-    pass
+    return(df_data_after_draws)
 
 
 
