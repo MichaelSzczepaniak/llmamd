@@ -1,21 +1,21 @@
-id,text,target,questionable_label
-659,@etribune  US Drone attack kills 4-suspected militants in North Waziristan @AceBreakingNews https://t.co/jB038rdFAK,1,2
-846,FedEx not willing to transport research specimens of potential bioterror pathogens in wake of anthrax lab mishaps  http://t.co/cM8UnI1mRG,1,2
-1075,@Benjm1 @TourofUtah @B1Grego saw that pileup on TV keep racing even bleeding,1,2
-1816,1943: Poland - work party prisoners in the Nazi death camp Treblinka rebelled seizing small arms and setting buildings on fire. #history,1,2
-2902,@GettingLost @JennEllensBB @Muncle_jim It said they had superficial wounds and it was the pepper spray that did the most damage.,1,2
-3089,@HighQualityBird a reverse situation (lol I don't know 9/11?) where US civilian deaths were specifically utilized to make a political,1,2
-3861,Ignition Knock (Detonation) Sensor-Senso Standard KS94 http://t.co/dY1erSDcRh http://t.co/m4cPmxmuRK,1,2
-4762,Does anyone know why #murfreesboro #walmart was evacuated this evening? @dnj_com,1,2
-5661,Slip Sliding Away - Flash Floods Info for Writers w/Tony Nester @SonoranRattler #writingtips http://t.co/sLTtOrRLHs,1,2
-5671,@Cyberdemon531 i hope that mountain dew erodes your throat and floods your lungs leaving you to drown to death,1,2
-6038,Heat Advisory is In Effect From 1 PM Through 7 PM Thursday. A Building Heat Wave and Increasing Humidity... #lawx http://t.co/u0SYkowVWV,1,2
-6164,{:en}Tension In Bayelsa As Patience Jonathan Plans To Hijack APCåÊPDP{:} http://t.co/W1ufeibALa http://t.co/bIULQpRxke,1,2
-7545,Families to sue over Legionnaires: More than 40 families affected by the fatal outbreak of Legionnaires' disea... http://t.co/02ELqLOpFk,1,2
-8172,AH-Mazing story of the power animal rescuers have! A starving homeless dog with no future was rescued by a person... http://t.co/ficd5qbqwl,1,2
-8261,`bbcnews The Ass. of British Insurers says rioting will cost insurers  &amp;#163;163;millions. But police numbers are reduced by blind fat contr,1,2
-8317,China's Stock Market Crash: Are There Gems In The Rubble? http://t.co/j4ggmKINEy #forbesasia,1,2
-9119,11 soldiers killed in ISIS suicide bomb in air base east Homs SYRIA NEWS | ZAMAN ALWSL  - http://t.co/V8juC5eK1A  #ISIS #Homs,1,2
-9337,#Autoinsurance industry clueless on driverless cars : #healthinsurance http://t.co/YdEtWgRibk,1,2
-10203,If you were the NWS wth a rotating storm w/ a report of a 'HUGE' / 'MASSIVE' / 'VIOLENT' tornado what would you do? https://t.co/J3dI85IST5,1,2
-10384,In memory of the victims of Hiroshima and Nagasaki. Never again! Ban nuclear weapons! : https://t.co/J3cIRXjFa6,1,2
+id,text,target,questionable_label,notes
+659,@etribune  US Drone attack kills 4-suspected militants in North Waziristan @AceBreakingNews https://t.co/jB038rdFAK,1,0,
+846,FedEx not willing to transport research specimens of potential bioterror pathogens in wake of anthrax lab mishaps  http://t.co/cM8UnI1mRG,1,1,FedEx policy change is not a disaster
+1075,@Benjm1 @TourofUtah @B1Grego saw that pileup on TV keep racing even bleeding,1,0,
+1816,1943: Poland - work party prisoners in the Nazi death camp Treblinka rebelled seizing small arms and setting buildings on fire. #history,1,1,historical reference
+2902,@GettingLost @JennEllensBB @Muncle_jim It said they had superficial wounds and it was the pepper spray that did the most damage.,1,0,
+3089,@HighQualityBird a reverse situation (lol I don't know 9/11?) where US civilian deaths were specifically utilized to make a political,1,0,
+3861,Ignition Knock (Detonation) Sensor-Senso Standard KS94 http://t.co/dY1erSDcRh http://t.co/m4cPmxmuRK,1,0,
+4762,Does anyone know why #murfreesboro #walmart was evacuated this evening? @dnj_com,1,0,
+5661,Slip Sliding Away - Flash Floods Info for Writers w/Tony Nester @SonoranRattler #writingtips http://t.co/sLTtOrRLHs,1,0,
+5671,@Cyberdemon531 i hope that mountain dew erodes your throat and floods your lungs leaving you to drown to death,1,1,insult
+6038,Heat Advisory is In Effect From 1 PM Through 7 PM Thursday. A Building Heat Wave and Increasing Humidity... #lawx http://t.co/u0SYkowVWV,1,0,
+6164,{:en}Tension In Bayelsa As Patience Jonathan Plans To Hijack APCåÊPDP{:} http://t.co/W1ufeibALa http://t.co/bIULQpRxke,1,0,
+7545,Families to sue over Legionnaires: More than 40 families affected by the fatal outbreak of Legionnaires' disea... http://t.co/02ELqLOpFk,1,0,
+8172,AH-Mazing story of the power animal rescuers have! A starving homeless dog with no future was rescued by a person... http://t.co/ficd5qbqwl,1,1,animal rescue
+8261,`bbcnews The Ass. of British Insurers says rioting will cost insurers  &amp;#163;163;millions. But police numbers are reduced by blind fat contr,1,0,
+8317,China's Stock Market Crash: Are There Gems In The Rubble? http://t.co/j4ggmKINEy #forbesasia,1,1,financial crash is not a disaster
+9119,11 soldiers killed in ISIS suicide bomb in air base east Homs SYRIA NEWS | ZAMAN ALWSL  - http://t.co/V8juC5eK1A  #ISIS #Homs,1,0,
+9337,#Autoinsurance industry clueless on driverless cars : #healthinsurance http://t.co/YdEtWgRibk,1,0,
+10203,If you were the NWS wth a rotating storm w/ a report of a 'HUGE' / 'MASSIVE' / 'VIOLENT' tornado what would you do? https://t.co/J3dI85IST5,1,0,
+10384,In memory of the victims of Hiroshima and Nagasaki. Never again! Ban nuclear weapons! : https://t.co/J3cIRXjFa6,1,1,historical reference

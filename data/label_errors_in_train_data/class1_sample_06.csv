@@ -1,21 +1,21 @@
-id,text,target,questionable_label
-50,#AFRICANBAZE: Breaking news:Nigeria flag set ablaze in Aba. http://t.co/2nndBGwyEi,1,2
-665,New post from @darkreading http://t.co/8eIJDXApnp New SMB Relay Attack Steals User Credentials Over Internet,1,2
-3480,Going to starbs it's only 70 degrees part of the metro derailed it's a beautiful morning in Washington D.C.,1,2
-4395,Sure the #Megaquake story brought a sense of panic but the question is: will anything really change? http://t.co/9f3rDN9N3D,1,2
-5368,wild night in the village of pugwash every fire truck is out that the town has which is like a fire truck for every house -population:6,1,2
-5593,Flood Advisory in effect for Shelby County in AL until 9 PM #alwx http://t.co/gTqMGsgcsB,1,2
-6472,4 dead dozens injured in Gaza blast near house leveled in summer war - Washington Post  http://t.co/AXXDCaKzTY #World,1,2
-6528,Trauma injuries involving kids and sport usually cycling related: Director Trauma NS  http://t.co/8DdijZyNkf #NS http://t.co/52Uus4TFN3,1,2
-7274,3 Former Executives To Be Prosecuted In Fukushima Nuclear Disaster http://t.co/UmjpRRwRUU,1,2
-7507,Refugio oil spill may have been costlier bigger than projected http://t.co/lzob8qOH1B,1,2
-7547,Families to sue over Legionnaires: More than 40 families affected by the fatal outbreak of Legionnaires' disease in Edinburgh are to ...,1,2
-7591,Families to sue over Legionnaires: More than 40 families affected by the fatal outbreak of Legionnaires' disea... http://t.co/Paje5mxN1z,1,2
-8149,#world Fears over missing migrants in Med: Rescuers search for survivors after a boat carrying as many a... http://t.co/6DS67XAI5e #news,1,2
-8155,#RoddyPiperAutos Fears over missing migrants in Med: Rescuers search for survivors after a boat carrying as ma...  http://t.co/97B8AVgEWU,1,2
-10067,Obama Declares Disaster for Typhoon-Devastated Saipan: Obama signs disaster declaration for Northern Marians a... http://t.co/Q3DtOqO04c,1,2
-10092,A GPM satellite 'bullseye' in Typhoon Soudelor http://t.co/7vcEzi6CbB,1,2
-10448,Firefighters Headed To California To Fight Wild Fires http://t.co/J2PYkYo0EN,1,2
-10550,NEMA Ekiti distributed relief materials to affected victims of Rain/Windstorm disaster at Ode-Ekiti in Gbonyin LGA.,1,2
-10622,Officer Wounded Suspect Killed in Exchange of Gunfire: Richmond police officer wounded suspect killed in exc... http://t.co/zDHwRN6cZc,1,2
-10869,Two giant cranes holding a bridge collapse into nearby homes http://t.co/STfMbbZFB5,1,2
+id,text,target,questionable_label,notes
+50,#AFRICANBAZE: Breaking news:Nigeria flag set ablaze in Aba. http://t.co/2nndBGwyEi,1,0,
+665,New post from @darkreading http://t.co/8eIJDXApnp New SMB Relay Attack Steals User Credentials Over Internet,1,1,not natural disaster
+3480,Going to starbs it's only 70 degrees part of the metro derailed it's a beautiful morning in Washington D.C.,1,0,
+4395,Sure the #Megaquake story brought a sense of panic but the question is: will anything really change? http://t.co/9f3rDN9N3D,1,0,
+5368,wild night in the village of pugwash every fire truck is out that the town has which is like a fire truck for every house -population:6,1,0,
+5593,Flood Advisory in effect for Shelby County in AL until 9 PM #alwx http://t.co/gTqMGsgcsB,1,0,
+6472,4 dead dozens injured in Gaza blast near house leveled in summer war - Washington Post  http://t.co/AXXDCaKzTY #World,1,0,
+6528,Trauma injuries involving kids and sport usually cycling related: Director Trauma NS  http://t.co/8DdijZyNkf #NS http://t.co/52Uus4TFN3,1,0,
+7274,3 Former Executives To Be Prosecuted In Fukushima Nuclear Disaster http://t.co/UmjpRRwRUU,1,1,aftermath of disaster
+7507,Refugio oil spill may have been costlier bigger than projected http://t.co/lzob8qOH1B,1,0,
+7547,Families to sue over Legionnaires: More than 40 families affected by the fatal outbreak of Legionnaires' disease in Edinburgh are to ...,1,0,
+7591,Families to sue over Legionnaires: More than 40 families affected by the fatal outbreak of Legionnaires' disea... http://t.co/Paje5mxN1z,1,0,
+8149,#world Fears over missing migrants in Med: Rescuers search for survivors after a boat carrying as many a... http://t.co/6DS67XAI5e #news,1,0,
+8155,#RoddyPiperAutos Fears over missing migrants in Med: Rescuers search for survivors after a boat carrying as ma...  http://t.co/97B8AVgEWU,1,0,
+10067,Obama Declares Disaster for Typhoon-Devastated Saipan: Obama signs disaster declaration for Northern Marians a... http://t.co/Q3DtOqO04c,1,0,
+10092,A GPM satellite 'bullseye' in Typhoon Soudelor http://t.co/7vcEzi6CbB,1,0,
+10448,Firefighters Headed To California To Fight Wild Fires http://t.co/J2PYkYo0EN,1,0,
+10550,NEMA Ekiti distributed relief materials to affected victims of Rain/Windstorm disaster at Ode-Ekiti in Gbonyin LGA.,1,0,
+10622,Officer Wounded Suspect Killed in Exchange of Gunfire: Richmond police officer wounded suspect killed in exc... http://t.co/zDHwRN6cZc,1,0,
+10869,Two giant cranes holding a bridge collapse into nearby homes http://t.co/STfMbbZFB5,1,0,

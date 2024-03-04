@@ -1,21 +1,21 @@
-id,text,target,questionable_label
-285,http://t.co/X5YEUYLT1X Twelve feared killed in Pakistani air ambulance helicopter crash http://t.co/2UgrMd1z1n,1,2
-570,#Kisii Police in Kisii hunt for students over failed arson plot: Police in Kisii hunt for students... http://t.co/m5SbFRrSn7 #CountyNews,1,2
-845,House Energy &amp;amp; Commerce subcommittee to hold 7/28 hearing of CDC oversight of bioterror labs Army anthrax mishaps. httÛ_,1,2
-856,FedEx no longer to transport bioterror germs in wake of anthrax lab mishaps http://t.co/pWAMG8oZj4,1,2
-1689,Warne shocked over Australia's epic collapse at Trent Bridge: Johannesburg Aug 06 (ANI): Legendary Australian... http://t.co/LwwoJXtTIV,1,2
-3521,@greateranglia I know the cow incident not yr fault by how where they on the line could of caused a derailment,1,2
-3679,5/6 will destroy Reg C competitiveness.   The entire region will B over-saturated.   Yes Brockton gets $12M and RegC Commonwealth PPC and,1,2
-4060,@I_AmTalia @SGC72 'Thousands of people were displaced/injured/killed but hey now there's more opportunity for different restaurants!',1,2
-4549,@POTUS Thx for emergency dec. http://t.co/DyWWNbbYvJ 4 days and no plan to get H20 to those who have no transport. Can you deploy troops?,1,2
-4585,Senators calling for emergency housing: Boxer Feinstein back plan to move #homeless vets to VA campus http://t.co/Gm80X3vutf,1,2
-5638,So grateful for all the support flooding in from @NetkiCorp dinner guests! THANK YOU ALL! https://t.co/ELTne5v1Qn,1,2
-6883,@yelllowheather controlled murder is fine. mass murder to a crowd of undeserving people isn't. case closed.,1,2
-7277,CLOSING THEIR EYES TO DISASTER!  State Department Unaware of Reports Iran is Sanitizing Nuclear Sites http://t.co/yRVGyKdbM6,1,2
-7377,Someone teaching you that obedience will obliterate trials in your life is trying to sell you a used car. Jesus's life blows that theory.',1,2
-7503,Refugio oil spill may have been costlier bigger than projected http://t.co/41L8tqCAey,1,2
-8662,#SanDiego #News Sinkhole Disrupts Downtown Trolley Service: The incident happened Wed... http://t.co/RVMMuT3GvC #Algeria #???????,1,2
-9181,@bbclaurak Why is no one talking about the risk of a suicide bomber hiding amongst the migrants stowing aboard the Eurotunnel  trains?,1,2
-9238,Remembering Mordechai Yehuda Friedman 24 of Ramat Beit Shemesh; murdered by Hamas terrorists in the suicide bombing of Egged bus No. 361,1,2
-10592,One man fatally shot another wounded on Vermont Street #Buffalo - http://t.co/KakY4mpCO4,1,2
-10647,Acc to the study conducted by SKIMS morethan 50% population in #Kashmir suffer psychiatric disorders http://t.co/sAF9MoSkSN #KashmirConflict,1,2
+id,text,target,questionable_label,notes
+285,http://t.co/X5YEUYLT1X Twelve feared killed in Pakistani air ambulance helicopter crash http://t.co/2UgrMd1z1n,1,0,
+570,#Kisii Police in Kisii hunt for students over failed arson plot: Police in Kisii hunt for students... http://t.co/m5SbFRrSn7 #CountyNews,1,0,
+845,House Energy &amp;amp; Commerce subcommittee to hold 7/28 hearing of CDC oversight of bioterror labs Army anthrax mishaps. httÛ_,1,1,political report ≠ disaster
+856,FedEx no longer to transport bioterror germs in wake of anthrax lab mishaps http://t.co/pWAMG8oZj4,1,1,change in FedEx policy ≠ disaster
+1689,Warne shocked over Australia's epic collapse at Trent Bridge: Johannesburg Aug 06 (ANI): Legendary Australian... http://t.co/LwwoJXtTIV,1,0,
+3521,@greateranglia I know the cow incident not yr fault by how where they on the line could of caused a derailment,1,0,
+3679,5/6 will destroy Reg C competitiveness.   The entire region will B over-saturated.   Yes Brockton gets $12M and RegC Commonwealth PPC and,1,1,referring to financial activity
+4060,@I_AmTalia @SGC72 'Thousands of people were displaced/injured/killed but hey now there's more opportunity for different restaurants!',1,0,
+4549,@POTUS Thx for emergency dec. http://t.co/DyWWNbbYvJ 4 days and no plan to get H20 to those who have no transport. Can you deploy troops?,1,0,
+4585,Senators calling for emergency housing: Boxer Feinstein back plan to move #homeless vets to VA campus http://t.co/Gm80X3vutf,1,2,homeless vets ≠ disaster
+5638,So grateful for all the support flooding in from @NetkiCorp dinner guests! THANK YOU ALL! https://t.co/ELTne5v1Qn,1,2,support for what is unclear
+6883,@yelllowheather controlled murder is fine. mass murder to a crowd of undeserving people isn't. case closed.,1,0,
+7277,CLOSING THEIR EYES TO DISASTER!  State Department Unaware of Reports Iran is Sanitizing Nuclear Sites http://t.co/yRVGyKdbM6,1,1,Iran nuclear program ≠ disaster
+7377,Someone teaching you that obedience will obliterate trials in your life is trying to sell you a used car. Jesus's life blows that theory.',1,1,giving advice ≠ disaster
+7503,Refugio oil spill may have been costlier bigger than projected http://t.co/41L8tqCAey,1,0,
+8662,#SanDiego #News Sinkhole Disrupts Downtown Trolley Service: The incident happened Wed... http://t.co/RVMMuT3GvC #Algeria #???????,1,0,
+9181,@bbclaurak Why is no one talking about the risk of a suicide bomber hiding amongst the migrants stowing aboard the Eurotunnel  trains?,1,1,hypothetical ≠ disaster
+9238,Remembering Mordechai Yehuda Friedman 24 of Ramat Beit Shemesh; murdered by Hamas terrorists in the suicide bombing of Egged bus No. 361,1,1,historical reference
+10592,One man fatally shot another wounded on Vermont Street #Buffalo - http://t.co/KakY4mpCO4,1,0,
+10647,Acc to the study conducted by SKIMS morethan 50% population in #Kashmir suffer psychiatric disorders http://t.co/sAF9MoSkSN #KashmirConflict,1,1,psychiatric disorders ≠ disaster

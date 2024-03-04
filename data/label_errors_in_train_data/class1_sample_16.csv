@@ -1,21 +1,21 @@
-id,text,target,questionable_label
-1621,Today Japan marks 70 yrs since the U.S (A) bombed 2 cities killing over 120000 people But we have to worry about Iran http://t.co/FcIXk23XQH,1,2
-1991,@dacherryontop13 ohh there are bush fires in Spain like every year one time when we went swimming there were planes getting water to fight,1,2
-2069,@ThomasHCrown My grandfather was set to be in the first groups of Marines to hit Japan in Operation Olympic. 95% casualty rate predictions,1,2
-2396,@flickershowell oh wow my heart collapsed cool im crying cool cool,1,2
-2612,Major Hamayun Shaheed pilot of MI-7 heli that crashed in Mansehra http://t.co/2z8UbsY5M8,1,2
-3530,Suresh Prabhu calls Harda derailment a natural calamity; officials feel warning signs ignored: Prabhu may regr... http://t.co/Q5MlbODVm4,1,2
-3802,Apollo Brown ft. M.O.P- Detonate - http://t.co/OMfGv9ma1W,1,2
-3893,We are on our way to Hiroshima. Today is the 70th anniversary of the detonation of the atomic bomb.,1,2
-4568,The City has activated the Municipal Emergency Plan. Primarily stay indoors avoid flooded areas Call 311 for... http://t.co/Ch6E7vTATR,1,2
-5282,@CowgirlLawyer We must refuse to become a nation with everyone living in fear of being shot unawares by intoxicated &amp;/or crazy people.,1,2
-5992,JAX issues Hazardous Weather Outlook (HWO)  http://t.co/u9fCb8dz3h #WX,1,2
-6034,Skinny Jeans are Hazardous for Your Health! #socialnews http://t.co/LTMa9xQXpx,1,2
-6050,@hollywarnexx mini heat wave apaz,1,2
-6649,@kemal_atlay caught in a landslide,1,2
-7607,I'll be at SFA very soon....#Pandemonium http://t.co/RW8b50xz9m,1,2
-7958,Landslide caused by severe rainstorm kills 3 in ItalianåÊAlps https://t.co/8BhvxX2Xl9 http://t.co/4ou8s82HxJ,1,2
-8126,Migrants Rescued After Boat Capsizes Off Libya http://t.co/pmGgavtokP,1,2
-8691,Share Large sinkhole swallows entire pond in Lowndes County Georgia A largeÛ_ http://t.co/HvBJ30aj9s #YoNews,1,2
-8945,Typhoon Soudelor was captured in this incredible NASA photo on it's way to Taiwan! http://t.co/dGGm5b0w4L http://t.co/eYr2Xx5l1p,1,2
-9194,@daisycuttertz @GROGParty @Tony_Burke He's been having lessons in suicide bombing from his imam!,1,2
+id,text,target,questionable_label,notes
+1621,Today Japan marks 70 yrs since the U.S (A) bombed 2 cities killing over 120000 people But we have to worry about Iran http://t.co/FcIXk23XQH,1,1,historical reference
+1991,@dacherryontop13 ohh there are bush fires in Spain like every year one time when we went swimming there were planes getting water to fight,1,0,
+2069,@ThomasHCrown My grandfather was set to be in the first groups of Marines to hit Japan in Operation Olympic. 95% casualty rate predictions,1,1,historical reference
+2396,@flickershowell oh wow my heart collapsed cool im crying cool cool,1,2,ambiguous as to what they are referring to
+2612,Major Hamayun Shaheed pilot of MI-7 heli that crashed in Mansehra http://t.co/2z8UbsY5M8,1,0,
+3530,Suresh Prabhu calls Harda derailment a natural calamity; officials feel warning signs ignored: Prabhu may regr... http://t.co/Q5MlbODVm4,1,0,
+3802,Apollo Brown ft. M.O.P- Detonate - http://t.co/OMfGv9ma1W,1,0,
+3893,We are on our way to Hiroshima. Today is the 70th anniversary of the detonation of the atomic bomb.,1,1,commemorating historical event
+4568,The City has activated the Municipal Emergency Plan. Primarily stay indoors avoid flooded areas Call 311 for... http://t.co/Ch6E7vTATR,1,0,
+5282,@CowgirlLawyer We must refuse to become a nation with everyone living in fear of being shot unawares by intoxicated &amp;/or crazy people.,1,0,
+5992,JAX issues Hazardous Weather Outlook (HWO)  http://t.co/u9fCb8dz3h #WX,1,0,
+6034,Skinny Jeans are Hazardous for Your Health! #socialnews http://t.co/LTMa9xQXpx,1,1,skinny jeans ≠ disaster
+6050,@hollywarnexx mini heat wave apaz,1,0,
+6649,@kemal_atlay caught in a landslide,1,0,
+7607,I'll be at SFA very soon....#Pandemonium http://t.co/RW8b50xz9m,1,2,ambiguous as to what they are referring to
+7958,Landslide caused by severe rainstorm kills 3 in ItalianåÊAlps https://t.co/8BhvxX2Xl9 http://t.co/4ou8s82HxJ,1,0,
+8126,Migrants Rescued After Boat Capsizes Off Libya http://t.co/pmGgavtokP,1,0,
+8691,Share Large sinkhole swallows entire pond in Lowndes County Georgia A largeÛ_ http://t.co/HvBJ30aj9s #YoNews,1,0,
+8945,Typhoon Soudelor was captured in this incredible NASA photo on it's way to Taiwan! http://t.co/dGGm5b0w4L http://t.co/eYr2Xx5l1p,1,0,
+9194,@daisycuttertz @GROGParty @Tony_Burke He's been having lessons in suicide bombing from his imam!,1,0,

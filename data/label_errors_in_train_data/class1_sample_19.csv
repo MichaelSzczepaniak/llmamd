@@ -1,21 +1,21 @@
-id,text,target,questionable_label
-66,How the West was burned: Thousands of wildfires ablaze in California alone http://t.co/vl5TBR3wbr,1,2
-79,#Kurds trampling on Turkmen flag later set it ablaze while others vandalized offices of Turkmen Front in #Diyala http://t.co/4IzFdYC3cg,1,2
-365,@willienelson We need help! Horses will die!Please RT &amp; sign petition!Take a stand &amp; be a voice for them! #gilbert23 https://t.co/e8dl1lNCVu,1,2
-926,The Threat | Anthrax | CDC http://t.co/q6oxzq45VE via @CDCgov,1,2
-2036,Sharp rise in women children casualties in Afghan war UN says http://t.co/0CXm5TkZ8y http://t.co/v5aMDOvHOT,1,2
-2929,@bluebirddenver #FETTILOOTCH IS #SLANGLUCCI OPPRESSIONS GREATEST DANGER COMING SOON THE ALBUM https://t.co/moLL5vd8yD,1,2
-3355,EPA begins demolition of homes in toxic area #Buffalo - http://t.co/noRkXBRS6G,1,2
-3419,Will @FoxNews continue to derail the Iran Nuclear Deal during tonight's #GOPDebate  oh yeah.,1,2
-3512,#ModiMinistry Madhya Pradesh Train Derailment: Village Youth Saved Many Lives http://t.co/YvMpHd0z9X,1,2
-4335,DUST IN THE WIND: @82ndABNDIV paratroopers move to a loading zone during a dust storm in support of Operation Fury: http://t.co/uGesKLCn8M,1,2
-4828,Update: Bend FD says roofing co. workers accidentally cut through natural gas line in Post Office leading to evacuation for about a half-hr,1,2
-5122,Police: man in his early 30s dies after shooting on Vermont St.: http://t.co/HteZ4z48Od http://t.co/Eq4rXC9bb3,1,2
-6024,http://t.co/rOdpt33XFM EverSafe Emergency Auto Kit for all Weather Unsafe hazardous rush-hour gridlock jumper-caÛ_ http://t.co/0BVK5tuB4J,1,2
-6975,Tunisia beach massacre linked to March terror attack on museum http://t.co/kuRqLxFiHL,1,2
-8663,beforeitsnews : A sinkhole grows in Brooklyn: six-meter crater swallows street Û_ http://t.co/QWo7q1AMh8) http://t.co/esRkmazEq9,1,2
-8986,My last two weather pics from the storm on August 2nd. People packed up real fast after the temp dropped and winds picked up.,1,2
-10073,Obama Declares Disaster for Typhoon-Devastated Saipan: Obama signs disaster declaration for Northern Marians a... http://t.co/9i6CrCRq2m,1,2
-10358,Ukraine argues for US weapons during Pelosi's visit to Kiev http://t.co/jnN0kRNXvY http://t.co/5LOiWuyv5r,1,2
-10601,Let's not forget our wounded female veterans. http://t.co/rZ7fbr10xw,1,2
-10702,the sunset boys wreck my bed   original 1979 usa gimp label  vinyl 7' 45  newave http://t.co/X0QLgwoyMT http://t.co/hQNx8qMeG3,1,2
+id,text,target,questionable_label,notes
+66,How the West was burned: Thousands of wildfires ablaze in California alone http://t.co/vl5TBR3wbr,1,0,
+79,#Kurds trampling on Turkmen flag later set it ablaze while others vandalized offices of Turkmen Front in #Diyala http://t.co/4IzFdYC3cg,1,0,
+365,@willienelson We need help! Horses will die!Please RT &amp; sign petition!Take a stand &amp; be a voice for them! #gilbert23 https://t.co/e8dl1lNCVu,1,0,
+926,The Threat | Anthrax | CDC http://t.co/q6oxzq45VE via @CDCgov,1,0,
+2036,Sharp rise in women children casualties in Afghan war UN says http://t.co/0CXm5TkZ8y http://t.co/v5aMDOvHOT,1,1,UN report on Afghan was casualties
+2929,@bluebirddenver #FETTILOOTCH IS #SLANGLUCCI OPPRESSIONS GREATEST DANGER COMING SOON THE ALBUM https://t.co/moLL5vd8yD,1,2,music reference?
+3355,EPA begins demolition of homes in toxic area #Buffalo - http://t.co/noRkXBRS6G,1,0,
+3419,Will @FoxNews continue to derail the Iran Nuclear Deal during tonight's #GOPDebate  oh yeah.,1,1,political discourse
+3512,#ModiMinistry Madhya Pradesh Train Derailment: Village Youth Saved Many Lives http://t.co/YvMpHd0z9X,1,0,
+4335,DUST IN THE WIND: @82ndABNDIV paratroopers move to a loading zone during a dust storm in support of Operation Fury: http://t.co/uGesKLCn8M,1,0,
+4828,Update: Bend FD says roofing co. workers accidentally cut through natural gas line in Post Office leading to evacuation for about a half-hr,1,0,
+5122,Police: man in his early 30s dies after shooting on Vermont St.: http://t.co/HteZ4z48Od http://t.co/Eq4rXC9bb3,1,0,
+6024,http://t.co/rOdpt33XFM EverSafe Emergency Auto Kit for all Weather Unsafe hazardous rush-hour gridlock jumper-caÛ_ http://t.co/0BVK5tuB4J,1,0,
+6975,Tunisia beach massacre linked to March terror attack on museum http://t.co/kuRqLxFiHL,1,0,
+8663,beforeitsnews : A sinkhole grows in Brooklyn: six-meter crater swallows street Û_ http://t.co/QWo7q1AMh8) http://t.co/esRkmazEq9,1,0,
+8986,My last two weather pics from the storm on August 2nd. People packed up real fast after the temp dropped and winds picked up.,1,0,
+10073,Obama Declares Disaster for Typhoon-Devastated Saipan: Obama signs disaster declaration for Northern Marians a... http://t.co/9i6CrCRq2m,1,0,
+10358,Ukraine argues for US weapons during Pelosi's visit to Kiev http://t.co/jnN0kRNXvY http://t.co/5LOiWuyv5r,1,1,political discourse
+10601,Let's not forget our wounded female veterans. http://t.co/rZ7fbr10xw,1,1,remembering vets ≠ disaster
+10702,the sunset boys wreck my bed   original 1979 usa gimp label  vinyl 7' 45  newave http://t.co/X0QLgwoyMT http://t.co/hQNx8qMeG3,1,1,music reference

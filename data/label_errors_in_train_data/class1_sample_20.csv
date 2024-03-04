@@ -1,21 +1,21 @@
-id,text,target,questionable_label
-247,http://t.co/AY6zzcUpnz Twelve feared killed in Pakistani air ambulance helicopter crash http://t.co/sC9dNS41Mc,1,2
-360,U.S National Park Services Tonto National Forest: Stop the Annihilation of the Salt River Wild Horse... http://t.co/KPQk0C4G0M via @Change,1,2
-397,ohH NO FUKURODANI DIDN'T SURVIVE THE APOCALYPSE BOKUTO FEELS HORRIBLE  my poor boy my ppor child,1,2
-684,Nashville Theater Attack: Will Gun Grabbers Now Demand ÛÏHatchet Control?Û  http://t.co/OyoGII97yH,1,2
-1277,it wasnt a very big stab but it was a deep stab and theres like blood everwhe,1,2
-2388,Great British Bake Off's back and Dorret's chocolate gateau collapsed - JAN MOIR http://t.co/2SgDOFsmrQ http://t.co/xLEgC6UorA,1,2
-3370,Demolition Means Progress: Flint Michigan and the Fate of the American Metropolis Highsmith https://t.co/ZvoBMDxHGP,1,2
-3595,@CorleoneDaBoss bc its risky and costly I don't see a need to do that when there isn't anything there. It's totally desolate.,1,2
-3737,@DavidVitter Hi David in 2003 I saw the USA walk into a war that destroyed the lives of millions. You can prevent a repeat. #IranDeal,1,2
-3977,70 Years After Atomic Bombs Japan Still Struggles With War Past: The anniversary of the devastation wrought b...  http://t.co/BS6XaqHsim,1,2
-4490,Watching a man electrocuted on the roof of #mumbailocals is definitely a lesson.. People please learn!! #lessonforlife #marinelines #mumbai,1,2
-4788,Evacuation orders lifted for Roosevelt in Highway 8 fire. http://t.co/e2HltYyFAk #koin6news http://t.co/pmxEzUo4AY,1,2
-6140,@dreamoforgonon @TeeEss not to hijack but as a bona fide cislady I can confirm this as true; incidental homosexuality =/= gay/bi for women.,1,2
-6857,We have different moral systems. Mine rejects the mass murder of innocents yours explicitly endorses such behavior. https://t.co/qadRKEJZ9T,1,2
-7198,On the sneak America has us spoiled. A natural disaster will humble niggas.,1,2
-7215,natural disaster ÛÒ News Stories About natural disaster - Page 1 | Newser http://t.co/TB8gZEMbXU,1,2
-7584,Families to sue over Legionnaires' disease outbreak in Edinburgh - BBC News http://t.co/rM6CNzkSzL,1,2
-8654,Gaping sinkhole opens up in Brooklyn New York http://t.co/0xA6FCjyec,1,2
-9145,ISIS claims responsibility for Saudi mosque suicide bombing http://t.co/Wpilp4mymf http://t.co/8NHD9iDaJs,1,2
-9484,@KurtSchlichter  He's already done it by negotiating with the #1 state of terrorism in the World. What was his hurry in trying to get a deal,1,2
+id,text,target,questionable_label,notes
+247,http://t.co/AY6zzcUpnz Twelve feared killed in Pakistani air ambulance helicopter crash http://t.co/sC9dNS41Mc,1,0,
+360,U.S National Park Services Tonto National Forest: Stop the Annihilation of the Salt River Wild Horse... http://t.co/KPQk0C4G0M via @Change,1,1,NPS action ≠ disaster
+397,ohH NO FUKURODANI DIDN'T SURVIVE THE APOCALYPSE BOKUTO FEELS HORRIBLE  my poor boy my ppor child,1,0,
+684,Nashville Theater Attack: Will Gun Grabbers Now Demand ÛÏHatchet Control?Û  http://t.co/OyoGII97yH,1,0,
+1277,it wasnt a very big stab but it was a deep stab and theres like blood everwhe,1,0,
+2388,Great British Bake Off's back and Dorret's chocolate gateau collapsed - JAN MOIR http://t.co/2SgDOFsmrQ http://t.co/xLEgC6UorA,1,1,bake off ≠ disaster
+3370,Demolition Means Progress: Flint Michigan and the Fate of the American Metropolis Highsmith https://t.co/ZvoBMDxHGP,1,1,planned demolition ≠ disaster
+3595,@CorleoneDaBoss bc its risky and costly I don't see a need to do that when there isn't anything there. It's totally desolate.,1,2,doing something costly and risky could result in a disaster
+3737,@DavidVitter Hi David in 2003 I saw the USA walk into a war that destroyed the lives of millions. You can prevent a repeat. #IranDeal,1,1,political discourse
+3977,70 Years After Atomic Bombs Japan Still Struggles With War Past: The anniversary of the devastation wrought b...  http://t.co/BS6XaqHsim,1,1,historical reference
+4490,Watching a man electrocuted on the roof of #mumbailocals is definitely a lesson.. People please learn!! #lessonforlife #marinelines #mumbai,1,1,getting electrocuted on a roof ≠ disaster
+4788,Evacuation orders lifted for Roosevelt in Highway 8 fire. http://t.co/e2HltYyFAk #koin6news http://t.co/pmxEzUo4AY,1,0,
+6140,@dreamoforgonon @TeeEss not to hijack but as a bona fide cislady I can confirm this as true; incidental homosexuality =/= gay/bi for women.,1,1,incidental homosexuality ≠ disaster
+6857,We have different moral systems. Mine rejects the mass murder of innocents yours explicitly endorses such behavior. https://t.co/qadRKEJZ9T,1,2,ambiguous context
+7198,On the sneak America has us spoiled. A natural disaster will humble niggas.,1,1,imaginary disaster ≠ disaster
+7215,natural disaster ÛÒ News Stories About natural disaster - Page 1 | Newser http://t.co/TB8gZEMbXU,1,0,
+7584,Families to sue over Legionnaires' disease outbreak in Edinburgh - BBC News http://t.co/rM6CNzkSzL,1,0,
+8654,Gaping sinkhole opens up in Brooklyn New York http://t.co/0xA6FCjyec,1,0,
+9145,ISIS claims responsibility for Saudi mosque suicide bombing http://t.co/Wpilp4mymf http://t.co/8NHD9iDaJs,1,0,
+9484,@KurtSchlichter  He's already done it by negotiating with the #1 state of terrorism in the World. What was his hurry in trying to get a deal,1,1,political discourse
