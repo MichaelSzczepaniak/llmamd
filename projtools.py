@@ -464,8 +464,9 @@ def get_random_samples(df_data,
         random_sample = rand.sample(df_data.index.to_list(), sample_size)
         indices_drawn.extend(random_sample)
         df_data_drawn = df_data.loc[df_data.index.isin(random_sample), :]
-        # add the col indicating whether label was questionable or not
+        # add the cols explaining whether label was questionable or not
         df_data_drawn['questionable_label'] = 2
+        df_data_drawn['notes'] = ''
         # write out the items from this sample
         out_file = out_dir + out_file_prefix + str(i+1).zfill(2) + ".csv"
         df_data_drawn.to_csv(out_file, encoding='utf-8')
