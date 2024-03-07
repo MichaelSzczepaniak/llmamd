@@ -441,7 +441,9 @@ def get_random_samples(df_data,
                        number_of_samples=20,
                        random_seed=711):
     """
-    Writes out a num_samples number of random samples drawn from df_data
+    Writes out a num_samples number of random samples drawn from df_data after
+    creating a 'notes' and 'questionable_label' columns and filling the later
+    with 2 (representing 'uncertain label')
     
     
     Args:
