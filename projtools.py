@@ -117,7 +117,7 @@ def replace_urls(list_of_lines):
     single tweet.
     
     Returns:
-    list(str): each line in list_of_lines is appended with ,[count of urls]
+    list(str): each line in list_of_lines has URLs replaced with the <url> token
     
     """
     fix_url_lines = []
@@ -164,7 +164,7 @@ def replace_twitter_specials(list_of_lines):
     """ Replaces the @ and # characters with "<user> " and "<hashtag> "
         respectively in tweet_string.  These replacement tokens were chose
         because they map to embedding vectors in the
-        glove.twitter.27B.200d.txt file.
+        glove.twitter.27B.100d.txt file.
     
     Args:
     list_of_lines (list(str)): List of strings where each line corresponds to a
@@ -276,7 +276,8 @@ def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
 
 def get_glove_embeds(embed_path = "./embeddings/glove.twitter.27B.200d.txt"):
     """
-    Reads in and returns a specified set of embeddings.
+    Reads in and returns the set of embeddings as dict where the key is word
+    or token and value is the embedding vector
     
     Args:
         embed_path(str): path the glove embeddings we want to read in
@@ -298,7 +299,7 @@ def get_glove_embeds(embed_path = "./embeddings/glove.twitter.27B.200d.txt"):
             coeffs = np.fromstring(coeffs, dtype='float', sep=' ')
             embedding_index[word] = coeffs
         
-    print("Found {} word vectors.".format(len(embedding_index)))
+    print(f"Found {len(embedding_index)} word vectors.")
     
     return embedding_index
 

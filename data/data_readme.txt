@@ -6,12 +6,18 @@ train.csv            original kaggle training data file: https://www.kaggle.com/
 train_clean_v01.csv  train.csv with spillover lines fixed
 train_clean_v02.csv  train_clean_v01.csv with text-target duplicates removed 
 train_clean_v03.csv  train_clean_v02.csv with cross-target duplicates removed
+train_clean_v04.csv  URLs replaced with <url> token
+train_clean_v05.csv  @ and # replaced with <user> and <hashtag> tokens
+train_clean_v06.csv  crude contraction expansion
 
 
 test.csv             original kaggle testing data file: https://www.kaggle.com/competitions/nlp-getting-started/data?select=test.csv
 test_clean_v01.csv   test.csv with spillover lines fixed
-test_clean_v02.csv   TBD
-test_clean_v03.csv   TBD
+test_clean_v02.csv   skipped
+test_clean_v03.csv   skipped
+test_clean_v04.csv   URLs replaced with <url> token
+test_clean_v05.csv   @ and # replaced with <user> and <hashtag> tokens
+test_clean_v06.csv   crude contraction expansion
 
 
 
