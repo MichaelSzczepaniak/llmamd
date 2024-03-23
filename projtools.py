@@ -4,7 +4,7 @@ import contractions as con
 import numpy as np
 import pandas as pd
 import random as rand
-from spacy.vocab import Vocab
+import spacy as sp
 from openai import OpenAI
 
 def fix_spillover_lines(list_of_lines):
@@ -184,6 +184,44 @@ def replace_twitter_specials(list_of_lines):
         fixed_content.append(tweet_string.strip())
     
     return fixed_content
+
+
+def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
+    """
+    Replaces digits with <number> token, removes stop words and removes
+    punctuation
+    
+    https://stackoverflow.com/questions/47144311/removing-punctuation-using-spacy-attributeerror#71257796
+    """
+    nlp = sp.load(spacy_model)
+    # preserve existing special tokens
+    # https://github.com/explosion/spaCy/discussions/12007
+    ruler = nlp.add_pipe("entity_ruler", first=True)
+    patterns = [{"label": "ORG", "pattern": "<hashtag>"},
+                {"label": "PERSON", "pattern": "<user>"},
+                {"label": "QUANTITY", "pattern": "<number>"},
+                {"label": "LOC", "pattern": "<url>"}]
+    ruler.add_patterns(patterns)
+    nlp.add_pipe("merge_entities", after="entity_ruler")
+    
+    new_text_col = []
+    for index, row in df.iterrows():
+        line_tokens = " ".join(token.lemma_.lower() for token in nlp(row[text_col])
+                               if not token.is_stop
+                                  and not token.is_punct)
+    
+        line_tokens = " ".join(token.lemma_ if not (token.is_digit or token.like_num)
+                               else "<number>"
+                               for token in nlp(line_tokens))
+        # remove punctuation left over from stop word removal
+        line_tokens = " ".join(token.lemma_.lower() for token in nlp(line_tokens)
+                               if not token.is_punct)
+        new_text_col.append(line_tokens)
+    
+    df.loc[:, text_col] = new_text_col
+    
+    return df
+
 
 
 def replace_with_space(fix_me, removal_chars):
