@@ -188,8 +188,8 @@ def replace_twitter_specials(list_of_lines):
 
 def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
     """
-    Replaces digits with <number> token, removes stop words and removes
-    punctuation
+    Replaces digits with <number> token, removes stop words, removes
+    punctuation and lemmatizes remaining tokens.
     
     https://stackoverflow.com/questions/47144311/removing-punctuation-using-spacy-attributeerror#71257796
     """
@@ -376,7 +376,7 @@ def get_prompt_setup(prompt_date='latest',
     prompt log file.
     
     Args:
-    prompt_date (tuple or str): tuple of 3 date strings of the form
+    prompt_date (tuple or str): tuple of 4 date strings of the form
         'yyyy-mm-dd' or 'latest'
     prompt_log_path (str): path to prompt and context log file
     
@@ -387,27 +387,43 @@ def get_prompt_setup(prompt_date='latest',
     df_prompt_data = pd.read_csv(prompt_log_path)
     if prompt_date == "latest":
         # get dates of the latest context and prompt prefixes
-        context_date = df_prompt_data.loc[df_prompt_data['prompt_component'] == 'context', 'date'].max()
+        context0_date = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'context') & \
+                                           (df_prompt_data['class'] == 0), 'date'].max()
+        
+        context1_date = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'context') & \
+                                           (df_prompt_data['class'] == 1), 'date'].max()
+        
         prefix_c0_date = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
                                             (df_prompt_data['class'] == 0), 'date'].max()
+        
         prefix_c1_date = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
                                             (df_prompt_data['class'] == 1), 'date'].max()
     else:
-        context_date = prompt_date[0]
-        prefix_c0_date = prompt_date[1]
-        prefix_c1_date = prompt_date[2]
+        context0_date = prompt_date[0]
+        context1_date = prompt_date[1]
+        prefix_c0_date = prompt_date[2]
+        prefix_c1_date = prompt_date[3]
     
-    context = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'context') & \
-                                 (df_prompt_data['date'] == context_date), 'content'].values[0]
+    context0 = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'context') & \
+                                  (df_prompt_data['date'] == context0_date) & \
+                                  (df_prompt_data['class'] == 0), 'content'].values[0]
+    
+    context1 = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'context') & \
+                                  (df_prompt_data['date'] == context0_date) & \
+                                  (df_prompt_data['class'] == 1), 'content'].values[0]
+    
     prefix_c0 = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
                                    (df_prompt_data['class'] == 0) & \
                                    (df_prompt_data['date'] == prefix_c0_date), 'content'].values[0]
+                                   
     prefix_c1 = df_prompt_data.loc[(df_prompt_data['prompt_component'] == 'prompt_prefix') & \
                                    (df_prompt_data['class'] == 1) & \
                                    (df_prompt_data['date'] == prefix_c1_date), 'content'].values[0]
     return_dict = {
-        'context': {'date': context_date,
-                    'text': context},
+        'context0': {'date': context0_date,
+                     'text': context0},
+        'context1': {'date': context1_date,
+                     'text': context1},
         'prefix_class0': {'date': prefix_c0_date,
                           'text': prefix_c0},
         'prefix_class1': {'date': prefix_c1_date,

@@ -8,7 +8,7 @@ train_clean_v02.csv  train_clean_v01.csv with text-target duplicates removed
 train_clean_v03.csv  train_clean_v02.csv with cross-target duplicates removed
 train_clean_v04.csv  URLs replaced with <url> token
 train_clean_v05.csv  @ and # replaced with <user> and <hashtag> tokens
-train_clean_v06.csv  crude contraction expansion
+train_clean_v06.csv  expand contractions
 train_clean_v07.csv  remove digits, stop words, make everything lower case
 
 
@@ -18,7 +18,7 @@ test_clean_v02.csv   skipped
 test_clean_v03.csv   skipped
 test_clean_v04.csv   URLs replaced with <url> token
 test_clean_v05.csv   @ and # replaced with <user> and <hashtag> tokens
-test_clean_v06.csv   crude contraction expansion
+test_clean_v06.csv   expand contractions
 test_clean_v07.csv   remove digits, stop words, make everything lower case
 
 
