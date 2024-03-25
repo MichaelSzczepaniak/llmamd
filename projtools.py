@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import random as rand
 import spacy as sp
+from sklearn.feature_extraction.text import CountVectorizer
 from openai import OpenAI
 
 def fix_spillover_lines(list_of_lines):
@@ -190,6 +191,17 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
     """
     Replaces digits with <number> token, removes stop words, removes
     punctuation and lemmatizes remaining tokens.
+    
+    Args:
+    df ((pandas.core.frame.DataFrame)): data with a text_col column holding a
+    single tweet.
+    text_col (str): string column name containing the  tweet in df
+    spacy_model (str): 
+    
+    Returns:
+    list(str): each element in the list is a tweet string that has had its
+    @ and # characters replaced by "<user> " and "<hashtag> " respectively and
+    has the terminating /n (new line) character removed.
     
     https://stackoverflow.com/questions/47144311/removing-punctuation-using-spacy-attributeerror#71257796
     """
@@ -536,5 +548,38 @@ def get_random_samples(df_data,
 
     return(df_data_after_draws)
 
+def count_tokens(text_vector,
+                 sort_ascending=False,
+                 special_tokens="|<user>|<hashtag>|<url>|<number>",
+                 vocabulary_size=4500):
+    """
+    
+    
+    """
+    
+    token_pat = r"(?u)\b\w\w+\b" + special_tokens
+    
+    ## add the special tokens to token_pattern parameter so we can preserve them
+    vectorizer = CountVectorizer(analyzer = "word", tokenizer = None,
+                                 token_pattern = token_pat,
+                                 preprocessor = None, max_features = vocabulary_size)
+    data_features = vectorizer.fit_transform(text_vector)
+    #
+    data_mat = data_features.toarray()
+    voc_dict = vectorizer.vocabulary_
+    word_counts = data_mat.sum(axis=0)
 
+    # turn the matrix of counts into a more readable dataframe
+    tokens = []
+    token_counts = []
+    vocab_tokens = list(voc_dict.keys())
+    for token in vocab_tokens:
+        tokens.append(token)
+        token_counts.append(word_counts[voc_dict[token]])
 
+    df_vocab_counts = pd.DataFrame({'token': tokens,
+                                    'token_counts': token_counts})
+    df_vocab_counts = df_vocab_counts.sort_values(['token_counts', 'token'],
+                                                  ascending=sort_ascending)
+    
+    return(df_vocab_counts)
