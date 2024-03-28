@@ -217,7 +217,12 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
     nlp.add_pipe("merge_entities", after="entity_ruler")
     
     new_text_col = []
+    stops_removed = []
     for index, row in df.iterrows():
+        # collect the stop words that are being removed so they can be examined
+        stop_tokens = [token.orth_.lower() for token in nlp(row[text_col]) if token.is_stop]
+        stops_removed.extend(stop_tokens)
+    
         line_tokens = " ".join(token.lemma_.lower() for token in nlp(row[text_col])
                                if not token.is_stop
                                   and not token.is_punct)
@@ -232,7 +237,7 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
     
     df.loc[:, text_col] = new_text_col
     
-    return df
+    return({'df': df, 'stops_removed': stops_removed})
 
 
 
@@ -304,8 +309,7 @@ def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
     """ Write a list of lines to a file.
     
     Args:
-    list_of_lines (list(str)): List of strings where each line corresponds to a
-    single tweet.
+    list_of_lines (list(str)): List of strings.
     file_name (str): specifies where the file should be written
     
     Returns:
@@ -551,10 +555,12 @@ def get_random_samples(df_data,
 def count_tokens(text_vector,
                  sort_ascending=False,
                  special_tokens="|<user>|<hashtag>|<url>|<number>",
-                 vocabulary_size=4500):
+                 vocabulary_size=5291):
     """
     
-    
+    Returns:
+    pandas.core.frame.DataFrame with 2 columns: token and token_counts which are
+    the token and the number of instances of that token found in text_vector
     """
     
     token_pat = r"(?u)\b\w\w+\b" + special_tokens
