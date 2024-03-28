@@ -216,10 +216,22 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
     ruler.add_patterns(patterns)
     nlp.add_pipe("merge_entities", after="entity_ruler")
     
+    # remove the following from the default stop word list
+    not_stops = {"you", "on", "not", "from", "was", "but", "your", "all", "no",
+                 "when", "now", "more", "over", "some", "first", "full", "down",
+                 "may", "only", "last", "many", "never", "any", "everyone",
+                 "every", "before", "under", "top", "most", "during", "next",
+                 "while", "call", "very", "nothing", "anything", "everything",
+                 "sometimes", "serious", "everywhere", "none", "except",
+                 "within", "above", "below", "nobody", "afterwards", "anywhere"}
+    nlp.Defaults.stop_words -= not_stops
+    
     new_text_col = []
     stops_removed = []
     for index, row in df.iterrows():
         # collect the stop words that are being removed so they can be examined
+        # .orth_ property returns the string version of the spaCy token
+        # https://stackoverflow.com/questions/49889113/converting-spacy-token-vectors-into-text#57902210
         stop_tokens = [token.orth_.lower() for token in nlp(row[text_col]) if token.is_stop]
         stops_removed.extend(stop_tokens)
     
