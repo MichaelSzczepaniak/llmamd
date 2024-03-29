@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import random as rand
 import spacy as sp
+import time
 from sklearn.feature_extraction.text import CountVectorizer
 from openai import OpenAI
 
@@ -492,6 +493,136 @@ def get_aug_tweet(context="", prompt_content="", oai_llm="gpt-3.5-turbo"):
     aug_gen_tweet = completion.choices[0].message.content
     
     return(aug_gen_tweet)
+    
+
+def get_batch_indices(start_index=0, end_index=(4001, 2801), batch_size=200,
+                      last_interval=[(4200, 4297), (3100, 3189)]):
+    """
+    
+    
+    Return:
+    list(tuple(int, int)): 
+    
+    """
+    offset = batch_size - 1
+    
+    class0_range_starts = tuple(range(start_index, end_index[0], batch_size))
+    class1_range_starts = tuple(range(start_index, end_index[1], batch_size))
+    
+    tweet_batches_class0 = [(start0, start0+offset) for start0 in class0_range_starts]
+    tweet_batches_class1 = [(start1, start1+offset) for start1 in class1_range_starts]
+    
+    tweet_batches_class0.append((4200, 4297))
+    tweet_batches_class1.append((3100, 3189))
+    
+    return_dict = {
+        'tweet_batches_class0': tweet_batches_class0,
+        'tweet_batches_class1': tweet_batches_class1
+    }
+    
+    return(return_dict)
+
+
+def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
+                         batch_start, batch_end,
+                         debug=False,
+                         train_csv_file="./data/train_clean_v03.csv",
+                         out_dir="./data/prompts_v05/",
+                         prompt_id="v05prompt"):
+    """
+    Generates a batch of tweets and writes them to a file
+    
+    Args:
+    class_label (int): 0 if NOT disaster tweet, 1 if disaster tweet
+    context_by_class (str): if class_label is 0, this is the context for the 
+        prompt that generates NOT disaster-related tweets.  If class_label is 1,
+        this is the context for the prompt that generates disaster-related
+        tweets.
+    start_prompt_by_class (str): if class_label is 0, this is the start of the 
+        prompt that generates NOT disaster-related tweets.  If class_label is 1,
+        this is the start of the prompt that generates disaster-related tweets.
+    batch_start (int): starting index of the batch
+    batch_end (int): ending index of the batch
+    train_csv_file_file (str): dataframe containing the
+        original tweets from which the LLM will generate similar tweets. This
+        dataframe is expected to have the following 3 columns:
+        id, text and target where
+        id is the unique integer identifier for the tweet
+        text is the content of the original tweets
+        target is 0 if it is not disaster-related or 1 if it is disaster-related
+    
+    Return:
+    dict: with x keys: aug_tweets_dict, class_label, batch_start, barch_end, generation_time
+        where aug_tweets_dict is a dictionary...
+        created from the train_csv_file.
+        class is an int which is 0 if the tweet is NOT disaster, 1 if the tweet
+        is disaster-related.
+        batch_start is an int which is the starting index of the batch
+        barch_end is an int which is the ending index of the batch
+        generation_time is a float that is execution time to generate the tweets
+        in minutes
+    """
+    t0 = time.time()  # intialize start time
+    # read the training data into a dataframe
+    df_train = pd.read_csv(train_csv_file, index_col='id')
+    # filter for the target class specified
+    df_by_class = df_train.loc[df_train['target'] == class_label,
+                               ['text', 'target']]
+    print(f"shape of train_csv_file: {df_train.shape}")
+    print(f"generating augmented tweets for class: {class_label}")
+    print(f"shape of df_by_class: {df_by_class.shape}")
+    # get the original tweets for this batch
+    df_aug_chunk = df_by_class.iloc[batch_start:(batch_end+1)]
+    #
+    rows_processed = 0
+    aug_tweet_ids = []
+    aug_tweets_texts = []
+    # aug_tweets_targets = []
+    
+    for row_index, row in df_aug_chunk.iterrows():
+        rows_processed += 1
+        prompt_content = start_prompt_by_class + row['text']
+        if debug:
+            gen_tweet = "*** augmented tweet text test ***"
+        else:
+            gen_tweet = get_aug_tweet(context_by_class, prompt_content)
+        
+        if not(gen_tweet.startswith('"')):
+            gen_tweet = '"' + gen_tweet
+        if not(gen_tweet.endswith('"')):
+            gen_tweet = gen_tweet + '"'
+        aug_tweets_texts.append(gen_tweet)
+        # aug_tweet_ids.append(row['id'])
+        aug_tweet_ids.append(row_index)
+        # aug_tweets_targets.append(row['target'])
+        if rows_processed % 10 == 0:
+            # print(f"processing row {rows_processed} with id {row['id']}")
+            print(f"processing row {rows_processed} with id {row_index}")
+    
+    dict_aug_tweets = {}
+    for i in range(0, len(aug_tweet_ids)):
+        dict_aug_tweets[aug_tweet_ids[i]] = aug_tweets_texts[i]
+    
+    out_file = f"{out_dir}aug_tweets_class{class_label}_{prompt_id}_"
+    out_file = f"{out_file}{batch_start:04}_{batch_end-1:04}.csv"
+    
+    write_success = write_aug_tweets(dict_aug_tweets, class_label, out_file)
+    print(f"Augmented data file written successfully: {write_success}")
+    
+    t1 = time.time()
+    generation_time = (t1 - t0) / 60.
+    print(f"time to do {rows_processed} is {generation_time} minutes")
+    
+    return_dict = {
+        'aug_tweets_dict': dict_aug_tweets,
+        'class_label': class_label,
+        'batch_start': batch_start,
+        'batch_end': batch_end,
+        'generation_time': generation_time
+    }
+    
+    return(return_dict)
+
 
 
 def write_aug_tweets(aug_tweets_dict, target_class, out_file):

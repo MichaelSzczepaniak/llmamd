@@ -8,7 +8,11 @@ date,prompt_component,version,class,content,notes
 2024-02-29,context,3,2,You are a fiction writer who has observed a disaster and likes to tweet.,same as version 2
 2024-02-29,prompt_prefix,3,0,"Write me a tweet similar to this one, under 141 characters, does not contain contractions or double quotes, but refers to a different activity and location: ",fix issue with generated tweet quoting
 2024-02-29,prompt_prefix,3,1,"Write me a tweet similar to this one, under 141 characters, does not contain contractions or double quotes, but refers to a different disaster and location: ",fix issue with generated tweet quoting
-2024-03-23,context,4,1,You are a world class reporter who has observed a disaster and likes to tweet.,change fiction writer to reporter
 2024-03-23,context,4,0,You are social commentator who enjoys diverse opinions and likes to tweet.,add context for class 0 generated tweets
+2024-03-23,context,4,1,You are a world class reporter who has observed a disaster and likes to tweet.,change fiction writer to reporter
 2024-03-23,prompt_prefix,4,0,"Write me a tweet similar to this one, under 141 characters, does not contain double quotes, but refers to a different activity, feeling and location: ","remove contraction constraint, add similar feeling"
 2024-03-23,prompt_prefix,4,1,"Write me a tweet similar to this one, under 141 characters, does not contain double quotes, but refers to a different disaster and location: ",remove contraction constraint
+2024-03-28,context,5,0,You are social commentator who enjoys diverse opinions and likes to tweet.,same as version 4
+2024-03-28,context,5,1,You are a world class reporter who has observed a disaster and likes to tweet.,same as version 4
+2024-03-28,prompt_prefix,5,0,"Write me a tweet similar to this one in length and content, under 141 characters, does not contain double quotes, but refers to a different activity, feeling and location: ",add similar length specification
+2024-03-28,prompt_prefix,5,1,"Write me a tweet similar to this one in length and content, under 141 characters, does not contain double quotes, but refers to a different disaster and location: ",add similar length specification
