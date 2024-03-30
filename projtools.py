@@ -513,7 +513,7 @@ def get_batch_indices(start_index=0, end_index=(4001, 2801), batch_size=200,
     tweet_batches_class1 = [(start1, start1+offset) for start1 in class1_range_starts]
     
     tweet_batches_class0.append((4200, 4297))
-    tweet_batches_class1.append((3100, 3189))
+    tweet_batches_class1.append((3000, 3189))
     
     return_dict = {
         'tweet_batches_class0': tweet_batches_class0,
@@ -525,8 +525,9 @@ def get_batch_indices(start_index=0, end_index=(4001, 2801), batch_size=200,
 
 def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
                          batch_start, batch_end,
+                         aug_offset=20000,
                          debug=False,
-                         train_csv_file="./data/train_clean_v03.csv",
+                         tweet_csv_file="./data/train_clean_v03.csv",
                          out_dir="./data/prompts_v05/",
                          prompt_id="v05prompt"):
     """
@@ -543,7 +544,12 @@ def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
         this is the start of the prompt that generates disaster-related tweets.
     batch_start (int): starting index of the batch
     batch_end (int): ending index of the batch
-    train_csv_file_file (str): dataframe containing the
+    aug_offset (int): add this amount to the original id in order to indicate
+        that the tweet was generated (i.e. and augmented tweet)
+    debug (boolean): If True, bypass call to LLM and use a test string as the 
+        augmented tweet response. If False (default), generate augmented tweets 
+        from context_by_class, start_prompt_by_class and original tweets.
+    tweet_csv_file_file (str): dataframe containing the
         original tweets from which the LLM will generate similar tweets. This
         dataframe is expected to have the following 3 columns:
         id, text and target where
@@ -554,7 +560,7 @@ def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
     Return:
     dict: with x keys: aug_tweets_dict, class_label, batch_start, barch_end, generation_time
         where aug_tweets_dict is a dictionary...
-        created from the train_csv_file.
+        created from the tweet_csv_file.
         class is an int which is 0 if the tweet is NOT disaster, 1 if the tweet
         is disaster-related.
         batch_start is an int which is the starting index of the batch
@@ -564,11 +570,11 @@ def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
     """
     t0 = time.time()  # intialize start time
     # read the training data into a dataframe
-    df_train = pd.read_csv(train_csv_file, index_col='id')
+    df_train = pd.read_csv(tweet_csv_file, index_col='id')
     # filter for the target class specified
     df_by_class = df_train.loc[df_train['target'] == class_label,
                                ['text', 'target']]
-    print(f"shape of train_csv_file: {df_train.shape}")
+    print(f"shape of tweet_csv_file: {df_train.shape}")
     print(f"generating augmented tweets for class: {class_label}")
     print(f"shape of df_by_class: {df_by_class.shape}")
     # get the original tweets for this batch
@@ -582,6 +588,7 @@ def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
     for row_index, row in df_aug_chunk.iterrows():
         rows_processed += 1
         prompt_content = start_prompt_by_class + row['text']
+        # debug most bypasses call to the LLM
         if debug:
             gen_tweet = "*** augmented tweet text test ***"
         else:
@@ -591,23 +598,27 @@ def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
             gen_tweet = '"' + gen_tweet
         if not(gen_tweet.endswith('"')):
             gen_tweet = gen_tweet + '"'
+        
         aug_tweets_texts.append(gen_tweet)
-        # aug_tweet_ids.append(row['id'])
-        aug_tweet_ids.append(row_index)
+        aug_tweet_ids.append(row_index + aug_offset)
         # aug_tweets_targets.append(row['target'])
         if rows_processed % 10 == 0:
             # print(f"processing row {rows_processed} with id {row['id']}")
-            print(f"processing row {rows_processed} with id {row_index}")
+            print(f"processing row {rows_processed} with id " +
+                  f"{row_index + aug_offset}")
     
     dict_aug_tweets = {}
     for i in range(0, len(aug_tweet_ids)):
         dict_aug_tweets[aug_tweet_ids[i]] = aug_tweets_texts[i]
     
     out_file = f"{out_dir}aug_tweets_class{class_label}_{prompt_id}_"
-    out_file = f"{out_file}{batch_start:04}_{batch_end-1:04}.csv"
+    out_file = f"{out_file}{batch_start:04}_{batch_end:04}.csv"
     
     write_success = write_aug_tweets(dict_aug_tweets, class_label, out_file)
-    print(f"Augmented data file written successfully: {write_success}")
+    if write_success:
+        print(f"Augmented data file written successfully to {out_file}")
+    else:
+        print(f"ERROR: Unable to write augmented data file to {out_file}")
     
     t1 = time.time()
     generation_time = (t1 - t0) / 60.
@@ -732,3 +743,36 @@ def count_tokens(text_vector,
                                                   ascending=sort_ascending)
     
     return(df_vocab_counts)
+
+
+
+def get_tweet_path(tweet_dir, tweet_file_prefix, tweet_class, tweet_prompt,
+                   tweet_batch_start, tweet_batch_end, tweet_file_type):
+    """
+    
+    """
+    tweet_path = f"{tweet_dir}{tweet_file_prefix}{tweet_class}"
+    tweet_path = f"{tweet_path}{tweet_prompt}{tweet_batch_start:04}_"
+    tweet_path = f"{tweet_path}{tweet_batch_end:04}{tweet_file_type}"
+    
+    return(tweet_path)
+
+
+def consolidate_tweet_batches(tweet_batch_indices,
+                              tweet_class=0,
+                              tweet_dir='./data/prompts_v05/',
+                              tweet_file_prefix='aug_tweets_class',
+                              tweet_prompt='_v05prompt_',
+                              tweet_file_type='.csv'):
+    """
+    
+    """
+    # df = pd.read_csv()
+    for tweet_batch in tweet_batch_indices[1:]:
+        tweet_file = get_tweet_path(tweet_dir, tweet_file_prefix,
+                                    tweet_class, tweet_prompt,
+                                    tweet_batch[0], tweet_batch[1],
+                                    tweet_file_type)
+        print(tweet_file)
+    
+    return(True)
