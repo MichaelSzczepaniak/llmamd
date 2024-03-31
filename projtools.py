@@ -758,6 +758,17 @@ def get_tweet_path(tweet_dir, tweet_file_prefix, tweet_class, tweet_prompt,
     return(tweet_path)
 
 
+def get_tweet_outfile(tweet_dir, tweet_file_prefix, tweet_class, tweet_prompt,
+                      tweet_file_type):
+    """
+    
+    """
+    tweet_out_path = f"{tweet_dir}{tweet_file_prefix}{tweet_class}"
+    tweet_out_path = f"{tweet_out_path}{tweet_prompt}{tweet_file_type}"
+    
+    return(tweet_out_path)
+
+
 def consolidate_tweet_batches(tweet_batch_dict,
                               tweet_dir='./data/prompts_v05/',
                               tweet_file_prefix='aug_tweets_class',
@@ -808,5 +819,10 @@ def consolidate_tweet_batches(tweet_batch_dict,
             df_temp = pd.read_csv(tweet_file, header=0, index_col='id',
                                   encoding="utf8")
             df = pd.concat([df, df_temp])
+        
+        # write the consolidated dataframe
+        out_file = get_tweet_outfile(tweet_dir, tweet_file_prefix, tweet_class,
+                                     tweet_prompt, tweet_file_type)
+        df.to_csv(out_file)
     
     return(df)
