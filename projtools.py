@@ -531,7 +531,7 @@ def generate_tweet_batch(class_label, context_by_class, start_prompt_by_class,
                          out_dir="./data/prompts_v05/",
                          prompt_id="v05prompt"):
     """
-    Generates a batch of tweets and writes them to a file
+    Generates a batch of tweets from an LLM and writes them to a file
     
     Args:
     class_label (int): 0 if NOT disaster tweet, 1 if disaster tweet
@@ -758,21 +758,55 @@ def get_tweet_path(tweet_dir, tweet_file_prefix, tweet_class, tweet_prompt,
     return(tweet_path)
 
 
-def consolidate_tweet_batches(tweet_batch_indices,
-                              tweet_class=0,
+def consolidate_tweet_batches(tweet_batch_dict,
                               tweet_dir='./data/prompts_v05/',
                               tweet_file_prefix='aug_tweets_class',
                               tweet_prompt='_v05prompt_',
                               tweet_file_type='.csv'):
     """
+    Reads in a set of files in to dataframes, concatenates them vertically
+    (by rows) and then writes out the consolidated file.
+    
+    
+    Args:
+    tweet_batch_dict (dict): dictionary with 2 keys: 'tweet_batches_class0' and
+                             'tweet_batches_class1'. Values are lists of
+                             2-tuples that are the starting and ending indices
+                             of the tweet batches to be processed.
+    tweet_dir (str): path to the dir where the augmented tweet files reside.
+                     Default is './data/prompts_v05/',
+    tweet_file_prefix (str): prefix of the augmented tweets file. Default is
+                            'aug_tweets_class',
+    tweet_prompt (str): designator added to the augmented tweets file to
+                        indicate version of the prompt used for their
+                        generation. Default is '_v05prompt_',
+    tweet_file_type (str): file type of the augmented tweets. Default is '.csv'
+    
+    
+    Returns:
+    
     
     """
-    # df = pd.read_csv()
-    for tweet_batch in tweet_batch_indices[1:]:
-        tweet_file = get_tweet_path(tweet_dir, tweet_file_prefix,
-                                    tweet_class, tweet_prompt,
-                                    tweet_batch[0], tweet_batch[1],
-                                    tweet_file_type)
-        print(tweet_file)
     
-    return(True)
+    for tweet_class in [0, 1]:
+        tweet_batch_class = f"tweet_batches_class{tweet_class}"
+        first_tweet_file = \
+            get_tweet_path(tweet_dir, tweet_file_prefix,
+                           tweet_class, tweet_prompt,
+                           tweet_batch_dict[tweet_batch_class][0][0],
+                           tweet_batch_dict[tweet_batch_class][0][1],
+                           tweet_file_type)
+        print(f"First tweet file for class {tweet_class}: {first_tweet_file}")
+        df = pd.read_csv(first_tweet_file, header=0, index_col='id',
+                         encoding="utf8")
+        for tweet_batch in tweet_batch_dict[tweet_batch_class][1:]:
+            tweet_file = get_tweet_path(tweet_dir, tweet_file_prefix,
+                                        tweet_class, tweet_prompt,
+                                        tweet_batch[0], tweet_batch[1],
+                                        tweet_file_type)
+            print(f"Processessing file: {tweet_file}")
+            df_temp = pd.read_csv(tweet_file, header=0, index_col='id',
+                                  encoding="utf8")
+            df = pd.concat([df, df_temp])
+    
+    return(df)
