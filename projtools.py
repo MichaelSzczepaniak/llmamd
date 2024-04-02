@@ -776,7 +776,7 @@ def consolidate_tweet_batches(tweet_batch_dict,
                               tweet_file_type='.csv'):
     """
     Reads in a set of files in to dataframes, concatenates them vertically
-    (by rows) and then writes out the consolidated file.
+    (by rows), writes out the consolidated file and returns it to the caller.
     
     
     Args:
@@ -795,7 +795,7 @@ def consolidate_tweet_batches(tweet_batch_dict,
     
     
     Returns:
-    
+    pandas.core.frame.DataFrame
     
     """
     
@@ -829,7 +829,8 @@ def consolidate_tweet_batches(tweet_batch_dict,
 
 
 def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
-                         path_to_output="./data/df_full_pipe.csv"):
+                         path_to_output="./data/df_full_pipe.csv",
+                         isAugmented=False):
     """
     Runs the entire preprocessing pipeline from the point immediately after the
     duplicates (both text-target and cross-target) have been removed.
@@ -840,13 +841,17 @@ def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
     Args:
     path_to_input_df_file (str): path to the input csv file
     path_to_output (str): path to write processed data file
+    isAugmented (boolean): If false (default), indicates that original data is
+        to be processed. If True, indicates that augmented data is to be
+        processed.
+    
+    Returns:
+    
     
     """
     df = pd.read_csv(path_to_input_df_file, encoding="utf8")
     
     list_id = df['id'].tolist()
-    list_keyword = df['keyword'].tolist()
-    list_location = df['location'].tolist()
     list_text = df['text'].tolist()  # only field pipeline manipulates
     list_target = df['target'].tolist()
 
@@ -860,11 +865,18 @@ def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
     stops_removed = dict_df_stops_fixed['stops_removed']
     list_text_fixed = df_spacy_fix['text'].tolist()
 
-    df_full_pipe = pd.DataFrame({'id': list_id,
-                                 'keyword': list_keyword,
-                                 'location': list_location,
-                                 'text': list_text_fixed,
-                                 'target': list_target})
+    if isAugmented:
+        df_full_pipe = pd.DataFrame({'id': list_id,
+                                     'text': list_text_fixed,
+                                     'target': list_target})
+    else: 
+        list_keyword = df['keyword'].tolist()
+        list_location = df['location'].tolist()
+        df_full_pipe = pd.DataFrame({'id': list_id,
+                                     'keyword': list_keyword,
+                                     'location': list_location,
+                                     'text': list_text_fixed,
+                                     'target': list_target})
 
     df_full_pipe.to_csv(path_or_buf=path_to_output,
                         index=False, encoding='utf-8')
