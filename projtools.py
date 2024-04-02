@@ -191,13 +191,14 @@ def replace_twitter_specials(list_of_lines):
 def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
     """
     Replaces digits with <number> token, removes stop words, removes
-    punctuation and lemmatizes remaining tokens.
+    punctuation, lemmatizes remaining tokens and stores them in lower case.
     
     Args:
-    df ((pandas.core.frame.DataFrame)): data with a text_col column holding a
-    single tweet.
+    df (pandas.core.frame.DataFrame): data with a text_col column holding a
+                                      single tweet.
     text_col (str): string column name containing the  tweet in df
-    spacy_model (str): 
+    spacy_model (str): spaCy language model used to process text. Default is
+                       "en_core_web_md"
     
     Returns:
     list(str): each element in the list is a tweet string that has had its
@@ -225,7 +226,7 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
                  "while", "call", "very", "nothing", "anything", "everything",
                  "sometimes", "serious", "everywhere", "none", "except",
                  "within", "above", "below", "nobody", "afterwards", "anywhere"}
-    nlp.Defaults.stop_words -= not_stops
+    nlp.Defaults.stop_words -= not_stops  # update default stop words
     
     new_text_col = []
     stops_removed = []
@@ -235,20 +236,19 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
         # https://stackoverflow.com/questions/49889113/converting-spacy-token-vectors-into-text#57902210
         stop_tokens = [token.orth_.lower() for token in nlp(row[text_col]) if token.is_stop]
         stops_removed.extend(stop_tokens)
-    
+        # remove what we consider stop words
         line_tokens = " ".join(token.lemma_.lower() for token in nlp(row[text_col])
-                               if not token.is_stop
-                                  and not token.is_punct)
-    
+                               if not token.is_stop) # and not token.is_punct)
+        # normalize consecutive digits
         line_tokens = " ".join(token.lemma_ if not (token.is_digit or token.like_num)
                                else "<number>"
                                for token in nlp(line_tokens))
-        # remove punctuation left over from stop word removal
+        # remove punctuation
         line_tokens = " ".join(token.lemma_.lower() for token in nlp(line_tokens)
                                if not token.is_punct)
         new_text_col.append(line_tokens)
     
-    df.loc[:, text_col] = new_text_col
+    df.loc[:, text_col] = new_text_col  # update with revised values
     
     return({'df': df, 'stops_removed': stops_removed})
 
@@ -826,3 +826,48 @@ def consolidate_tweet_batches(tweet_batch_dict,
         df.to_csv(out_file)
     
     return(df)
+
+
+def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
+                         path_to_output="./data/df_full_pipe.csv"):
+    """
+    Runs the entire preprocessing pipeline from the point immediately after the
+    duplicates (both text-target and cross-target) have been removed.
+    
+    The processed dataframe is written to a file before returning the 
+    dataframe to the caller.
+    
+    Args:
+    path_to_input_df_file (str): path to the input csv file
+    path_to_output (str): path to write processed data file
+    
+    """
+    df = pd.read_csv(path_to_input_df_file, encoding="utf8")
+    
+    list_id = df['id'].tolist()
+    list_keyword = df['keyword'].tolist()
+    list_location = df['location'].tolist()
+    list_text = df['text'].tolist()  # only field pipeline manipulates
+    list_target = df['target'].tolist()
+
+    list_urls_fixed = replace_urls(list_text)
+    list_twitter_fixed = replace_twitter_specials(list_urls_fixed)
+    list_text_fixed = expand_contractions(list_twitter_fixed)
+    df_contractions_expanded = pd.DataFrame({'id': list_id,
+                                             'text': list_text_fixed})
+    dict_df_stops_fixed = spacy_digits_and_stops(df_contractions_expanded)
+    df_spacy_fix = dict_df_stops_fixed['df']
+    stops_removed = dict_df_stops_fixed['stops_removed']
+    list_text_fixed = df_spacy_fix['text'].tolist()
+
+    df_full_pipe = pd.DataFrame({'id': list_id,
+                                 'keyword': list_keyword,
+                                 'location': list_location,
+                                 'text': list_text_fixed,
+                                 'target': list_target})
+
+    df_full_pipe.to_csv(path_or_buf=path_to_output,
+                        index=False, encoding='utf-8')
+    
+    return(df_full_pipe)
+
