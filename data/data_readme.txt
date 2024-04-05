@@ -10,6 +10,7 @@ train_clean_v04.csv  URLs replaced with <url> token
 train_clean_v05.csv  @ and # replaced with <user> and <hashtag> tokens
 train_clean_v06.csv  expand contractions
 train_clean_v07.csv  remove digits, stop words, make everything lower case
+train_clean_v08.csv  remove out-of-vocabulary (OOV) words/tokens
 
 
 test.csv             original kaggle testing data file: https://www.kaggle.com/competitions/nlp-getting-started/data?select=test.csv
@@ -20,6 +21,17 @@ test_clean_v04.csv   URLs replaced with <url> token
 test_clean_v05.csv   @ and # replaced with <user> and <hashtag> tokens
 test_clean_v06.csv   expand contractions
 test_clean_v07.csv   remove digits, stop words, make everything lower case
+test_clean_v08.csv   remove out-of-vocabulary (OOV) words/tokens
+
+
+aug_clean_v07.csv    same processing as t*_clean_v07.csv but on augmented tweets
+aug_clean_v08.csv    remove out-of-vocabulary (OOV) words/tokens
+
+
+vocab.txt  all the tokens that are considered as the vocabulary for the project
+           These were determined by first finding all the tokens that had a
+           mapping in the gloVe twitter embeddings file and then if the token
+           occurred more than once in the entire training corpus
 
 
 Definitions
