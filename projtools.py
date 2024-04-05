@@ -255,7 +255,7 @@ def spacy_digits_and_stops(df, text_col = 'text', spacy_model="en_core_web_md"):
 
 
 def replace_with_space(fix_me, removal_chars):
-    """ Replaces characters all the characters in removal_chars by a space in
+    """ Replaces all the characters in removal_chars by a space in
         the fix_me string
     
     Args:
@@ -341,7 +341,8 @@ def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
     return(True)
 
 
-def get_glove_embeds(embed_path = "./embeddings/glove.twitter.27B.200d.txt"):
+def get_glove_embeds(embed_path = "./embeddings_models/glove.twitter.27B.200d.txt",
+                     embed_as_np = True):
     """
     Reads in and returns the set of embeddings as dict where the key is word
     or token and value is the embedding vector
@@ -364,6 +365,8 @@ def get_glove_embeds(embed_path = "./embeddings/glove.twitter.27B.200d.txt"):
         for line in f:
             word, coeffs = line.split(maxsplit = 1)
             coeffs = np.fromstring(coeffs, dtype='float', sep=' ')
+            if not(embed_as_np):
+                coeffs = coeffs.tolist()
             embedding_index[word] = coeffs
         
     print(f"Found {len(embedding_index)} word vectors.")
@@ -382,12 +385,30 @@ def get_tweets(tweet_file_path = "./data/train_clean_v03.csv"):
 
 
 
-def load_vocab_embeddings(spacy_model, dict_embs, vocab):
-    """ 
+def remove_oov_tokens(vocab, list_of_lines):
+    """
+    Replaces each out-of-vocabulary (OOV) token with an empty string.
+    
+    Args:
+    vocab (set(srt)):
+    list_of_lines (list(str)):
+    
+    Returns:
+    list(str): list_of_lines with the OOV tokens replaced by empty strings
     
     """
-    # "en_core_web_md"
-    pass
+    #
+    print(f"remove_oov_tokens - size of vocabulary: {len(vocab)}")
+    return_list = []
+    for line in list_of_lines:
+        # assume tokens are separated by spaces
+        line_tokens = line.split()
+        fixed_line = [t for t in line_tokens if t in vocab]
+        # reassemble the tokens
+        updated_line = ' '.join(fixed_line)
+        return_list.append(updated_line)
+
+    return(return_list)
 
 
 
@@ -709,23 +730,37 @@ def get_random_samples(df_data,
 def count_tokens(text_vector,
                  sort_ascending=False,
                  special_tokens="|<user>|<hashtag>|<url>|<number>",
-                 vocabulary_size=5291):
+                 vocabulary_size=5327):
     """
+    Counts the number of tokens in text_vector based on a set vocabulary size
+    
+    Args:
+    text_vector (pandas.core.series.Series): column in a dataframe that contains
+        the text which we want to count token on
+    sort_ascending (boolean):
+    special_tokens (str): regex pattern for what should be considered tokens in 
+        addition to what is considered a token by default
+    vocabulary_size (int): the first this number of words with the highest
+        frequency/occurrence is considered the vocabulary. Default of 5327
+        was selected to drop single instance tokens found in the training set.
     
     Returns:
     pandas.core.frame.DataFrame with 2 columns: token and token_counts which are
     the token and the number of instances of that token found in text_vector
     """
-    
+    # add the special tokens to the default tokenization pattern
     token_pat = r"(?u)\b\w\w+\b" + special_tokens
     
     ## add the special tokens to token_pattern parameter so we can preserve them
     vectorizer = CountVectorizer(analyzer = "word", tokenizer = None,
                                  token_pattern = token_pat,
-                                 preprocessor = None, max_features = vocabulary_size)
+                                 preprocessor = None,
+                                 max_features = vocabulary_size)
     data_features = vectorizer.fit_transform(text_vector)
     #
     data_mat = data_features.toarray()
+    # dict with keys that are words in the vocabulary, values are the index
+    # in the data matrix (data_mat)
     voc_dict = vectorizer.vocabulary_
     word_counts = data_mat.sum(axis=0)
 
@@ -828,9 +863,27 @@ def consolidate_tweet_batches(tweet_batch_dict,
     return(df)
 
 
+def get_vocabulary(path_to_vocab="./data/vocab.txt"):
+    """
+    
+    
+    """
+    with open(path_to_vocab, encoding="utf8", errors='ignore') as f_vocab:
+       vocab = f_vocab.readlines()
+    
+    clean_vocab = []
+    for v in vocab:
+        v_clean = v.replace('\n', '')
+        clean_vocab.append(v_clean)
+    
+    return(set(clean_vocab))
+
+
 def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
                          path_to_output="./data/df_full_pipe.csv",
-                         isAugmented=False):
+                         path_to_vocab="./data/vocab.txt",
+                         isAugmented=False,
+                         isTrain=True):
     """
     Runs the entire preprocessing pipeline from the point immediately after the
     duplicates (both text-target and cross-target) have been removed.
@@ -841,19 +894,23 @@ def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
     Args:
     path_to_input_df_file (str): path to the input csv file
     path_to_output (str): path to write processed data file
-    isAugmented (boolean): If false (default), indicates that original data is
+    isAugmented (boolean): If False (default), indicates that original data is
         to be processed. If True, indicates that augmented data is to be
         processed.
+    isTrain (boolean): if True (default), indicates original training data is
+        is to be processed. If False, indicates testing data will be processed
     
     Returns:
-    
+    pandas.core.frame.DataFrame having the same fields as the input file, but
+    having the text field processed through the pipeline.
     
     """
     df = pd.read_csv(path_to_input_df_file, encoding="utf8")
     
     list_id = df['id'].tolist()
     list_text = df['text'].tolist()  # only field pipeline manipulates
-    list_target = df['target'].tolist()
+    if isTrain:
+        list_target = df['target'].tolist()
 
     list_urls_fixed = replace_urls(list_text)
     list_twitter_fixed = replace_twitter_specials(list_urls_fixed)
@@ -863,20 +920,31 @@ def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
     dict_df_stops_fixed = spacy_digits_and_stops(df_contractions_expanded)
     df_spacy_fix = dict_df_stops_fixed['df']
     stops_removed = dict_df_stops_fixed['stops_removed']
-    list_text_fixed = df_spacy_fix['text'].tolist()
+    spacy_text_fix = df_spacy_fix['text'].tolist()
+    # get the vocabulary to the OOV tokens can be removed
+    vocab = get_vocabulary(path_to_vocab)
+    list_text_fixed = remove_oov_tokens(vocab, spacy_text_fix)
 
-    if isAugmented:
-        df_full_pipe = pd.DataFrame({'id': list_id,
-                                     'text': list_text_fixed,
-                                     'target': list_target})
-    else: 
+    if isTrain:
+        if isAugmented:
+            df_full_pipe = pd.DataFrame({'id': list_id,
+                                         'text': list_text_fixed,
+                                         'target': list_target})
+        else: 
+            list_keyword = df['keyword'].tolist()
+            list_location = df['location'].tolist()
+            df_full_pipe = pd.DataFrame({'id': list_id,
+                                         'keyword': list_keyword,
+                                         'location': list_location,
+                                         'text': list_text_fixed,
+                                         'target': list_target})
+    else:
         list_keyword = df['keyword'].tolist()
         list_location = df['location'].tolist()
         df_full_pipe = pd.DataFrame({'id': list_id,
                                      'keyword': list_keyword,
                                      'location': list_location,
-                                     'text': list_text_fixed,
-                                     'target': list_target})
+                                     'text': list_text_fixed})
 
     df_full_pipe.to_csv(path_or_buf=path_to_output,
                         index=False, encoding='utf-8')
