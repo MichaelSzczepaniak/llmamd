@@ -997,3 +997,36 @@ def word_NN(w, vocab_embeddings, debug=False):
             curr_dist = dist
             
     return neighbor
+
+
+def vectorize_tweet(tweet_string, dict_embs, tokens_to_use=30, pad_token="<>"):
+    """
+    Creates a one-dimensional vector which is the concatenation of each
+    embedding in tweet_string padded to 30 tokens with pad_token
+    
+    Args:
+    tweet_string (str): text of tweet that is to be vectorized, should be
+        <= tokens_to_use in length
+    dict_embs (dictionary): dictionary with key = words in the vocabulary and
+        values = d-dimensional word embedding for that word
+    tokens_to_use (int) = number of tokens used to build the results vector
+    pad_token (str) = token to be used to pad the results vector up to
+        tokens_to_use
+    
+    Returns:
+    numpy.ndarray that is a one-dimensional vector of dtype=float64 with length
+    equal to (dimensions of embeddings) x tokens_to_use.  By default, this will
+    be              50                  x      30  = 1500
+    
+    """
+    pad_vec = dict_embs[pad_token]
+    tokens = tweet_string.split()
+    padding_tokens = tokens_to_use - len(tokens)
+    token_vec = np.array([])
+    for token in tokens:
+        token_vec = np.hstack((token_vec, dict_embs[token]))
+    # add the padding
+    for pad_token in range(padding_tokens):
+        token_vec = np.hstack((token_vec, pad_vec))
+
+    return(token_vec)
