@@ -11,6 +11,8 @@ train_clean_v05.csv  @ and # replaced with <user> and <hashtag> tokens
 train_clean_v06.csv  expand contractions
 train_clean_v07.csv  remove digits, stop words, make everything lower case
 train_clean_v08.csv  remove out-of-vocabulary (OOV) words/tokens
+train_clean_v09.csv  manually add "" to tweets with no value after processing:
+                     id = 28, 36, 40, 6407, 7295, 8560 and 9919
 
 
 test.csv             original kaggle testing data file: https://www.kaggle.com/competitions/nlp-getting-started/data?select=test.csv
@@ -22,10 +24,14 @@ test_clean_v05.csv   @ and # replaced with <user> and <hashtag> tokens
 test_clean_v06.csv   expand contractions
 test_clean_v07.csv   remove digits, stop words, make everything lower case
 test_clean_v08.csv   remove out-of-vocabulary (OOV) words/tokens
+test_clean_v09.csv   manually add "" to tweets with no value after processing:
+                     id = 43, 966 and 2436
 
 
 aug_clean_v07.csv    same processing as t*_clean_v07.csv but on augmented tweets
 aug_clean_v08.csv    remove out-of-vocabulary (OOV) words/tokens
+aug_clean_v09.csv    manually add "" to tweet with no value after processing:
+                     id = 20611
 
 
 vocab.txt  all the tokens that are considered as the vocabulary for the project
