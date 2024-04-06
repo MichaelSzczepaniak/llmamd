@@ -341,14 +341,16 @@ def write_lines_to_csv(list_of_lines, file_name = "./data/no_name.csv"):
     return(True)
 
 
-def get_glove_embeds(embed_path = "./embeddings_models/glove.twitter.27B.200d.txt",
+def get_glove_embeds(embed_path = "./embeddings_models/glove.twitter.27B.50d.empty.string.fix.txt",
                      embed_as_np = True):
     """
     Reads in and returns the set of embeddings as dict where the key is word
     or token and value is the embedding vector
     
     Args:
-        embed_path(str): path the glove embeddings we want to read in
+        embed_path(str): path to the glove embeddings we want to read in.
+        Default is 50 dimension twitter embeddings with the empty string token
+        taken as <> at line 38523
     
     Returns
     dict: a dictionary with keys that are words in the embeddings vocabulary
@@ -952,7 +954,7 @@ def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
     return(df_full_pipe)
 
 
-def word_NN(w, vocab_embeddings):
+def word_NN(w, vocab_embeddings, debug=False):
     """
     Finds the word closest to w in the vocabulary that isn't w itself.
     
@@ -981,10 +983,14 @@ def word_NN(w, vocab_embeddings):
     w_embedding = vocab_embeddings[w]
     neighbor = 0
     # compute the Euclidean distance between input word and 1st word in vocab
-    # here it just used to provide a initial value to compare (to itself)
+    # here it just used to provide a initial value to compare
     curr_dist = np.linalg.norm(w_embedding - vocab_embeddings[vocab_words[0]])
     # iterate through all the words in the vocabulary and find the 'closest'
     for vocab_word in vocab_words:
+        if debug:
+            if w_embedding.shape[0] != vocab_embeddings[vocab_word].shape[0]:
+                print(f"input word is {w} and had {w_embedding.shape[0]} dims")
+                print(f"vocab word is {vocab_word} and has {vocab_embeddings[vocab_word].shape[0]} dims")
         dist = np.linalg.norm(w_embedding - vocab_embeddings[vocab_word])
         if (dist < curr_dist):
             neighbor = vocab_word
