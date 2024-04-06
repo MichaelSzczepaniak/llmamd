@@ -951,3 +951,43 @@ def preproccess_pipeline(path_to_input_df_file="./data/train_clean_v03.csv",
     
     return(df_full_pipe)
 
+
+def word_NN(w, vocab_embeddings):
+    """
+    Finds the word closest to w in the vocabulary that isn't w itself.
+    
+    Args:
+        w(str): string, word to compute nearest neighbor for - must be in a key in vocab_embeddings
+        vocab_embeddings(dict): dictionary with keys that are words in the vocabulary
+          and values that are d-dimensional numpy array of floats that are the real-
+          vector embeddings for each word in the vocabulary
+          
+    Returns:
+        string: the word in the vocabulary that is the closest to this particular word
+    
+    """
+    
+    vocab_words = set(vocab_embeddings.keys())
+    # check if the word passed in is in the vocabulary
+    if not(w in vocab_words):
+        print ("Unknown word")
+        return
+    
+    # remove the word we are looking for the nearest neighbor of
+    vocab_words.discard(w)
+    vocab_words = list(vocab_words)
+    
+    # get the embedding for passed in word
+    w_embedding = vocab_embeddings[w]
+    neighbor = 0
+    # compute the Euclidean distance between input word and 1st word in vocab
+    # here it just used to provide a initial value to compare (to itself)
+    curr_dist = np.linalg.norm(w_embedding - vocab_embeddings[vocab_words[0]])
+    # iterate through all the words in the vocabulary and find the 'closest'
+    for vocab_word in vocab_words:
+        dist = np.linalg.norm(w_embedding - vocab_embeddings[vocab_word])
+        if (dist < curr_dist):
+            neighbor = vocab_word
+            curr_dist = dist
+            
+    return neighbor
