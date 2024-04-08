@@ -1011,7 +1011,7 @@ def vectorize_tweet(tweet_string, dict_embs, tokens_to_use=30, pad_token="<>"):
         values = d-dimensional word embedding for that word
     tokens_to_use (int) = number of tokens used to build the results vector
     pad_token (str) = token to be used to pad the results vector up to
-        tokens_to_use
+        tokens_to_use. Default is empty string token (<>)
     
     Returns:
     numpy.ndarray that is a one-dimensional vector of dtype=float64 with length
@@ -1030,3 +1030,22 @@ def vectorize_tweet(tweet_string, dict_embs, tokens_to_use=30, pad_token="<>"):
         token_vec = np.hstack((token_vec, pad_vec))
 
     return(token_vec)
+
+
+def make_tweet_feats(list_of_vectors):
+    """
+    
+    Args:
+    list_of_vectors (list(numpy.ndarray): list of numpy 1d vectors
+    
+    Returns:
+    numpy.ndarray this is 2d matrix with a row for each element in
+    list_of_vectors and columns are the dimensions in each numpy array element
+    
+    """
+    v_matrix = list_of_vectors[0]
+    # stack each vector underneath the next
+    for vec in list_of_vectors[1:]:
+        v_matrix = np.vstack((v_matrix, vec))
+    
+    return(v_matrix)
