@@ -7,6 +7,7 @@ import random as rand
 import spacy as sp
 import time
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics import roc_curve, auc, roc_auc_score
 from openai import OpenAI
 
 def fix_spillover_lines(list_of_lines):
@@ -357,8 +358,8 @@ def get_glove_embeds(embed_path = "./embeddings_models/glove.twitter.27B.50d.emp
     and values that are the embedding vectors for those words
     
     """
-
-    print('Indexing word vectors.')
+    t0 = time.time()  # intialize start time
+    print(f"Indexing word vectors...")
     # load the embeddings into a dict with keys that are words and
     # values are the embedding vectors for those words
     embedding_index = {}
@@ -370,8 +371,11 @@ def get_glove_embeds(embed_path = "./embeddings_models/glove.twitter.27B.50d.emp
             if not(embed_as_np):
                 coeffs = coeffs.tolist()
             embedding_index[word] = coeffs
-        
-    print(f"Found {len(embedding_index)} word vectors.")
+    
+    t1 = time.time()  # mark finish time
+    print(f"Found {len(embedding_index)} word vectors")
+    exec_time_mins = (t1 - t0) / 60.
+    print(f"Retrieving embeddings took {exec_time_mins: .2f} minutes")
     
     return embedding_index
 
@@ -1043,9 +1047,117 @@ def make_tweet_feats(list_of_vectors):
     list_of_vectors and columns are the dimensions in each numpy array element
     
     """
+    t0 = time.time()  # initialize start time
     v_matrix = list_of_vectors[0]
     # stack each vector underneath the next
     for vec in list_of_vectors[1:]:
         v_matrix = np.vstack((v_matrix, vec))
+    t1 = time.time()  # mark end time
+    
+    exec_time_mins = (t1 - t0) / 60.
+    print(f"Building tweet feature matrix took {exec_time_mins: .2f} minutes")
     
     return(v_matrix)
+
+
+def get_roc_curves(y_tests, y_scores, model_names=None, plot_title='Comparing Model ROCs', colors=None):
+    """
+    Creates a plot of ROC curves and their corresponding AUC values for a set of models.
+
+    Args:
+          y_tests(np.array(int)): 2-d array where each column are the binary class labels
+          (0 or 1) for a particular model. This array MUST have either a single column OR
+          the same number of columns as y_scores.
+          
+          If y_tests is a single column vector, then function assumes that the same y_tests
+          values should be a applied to each column in y_scores.
+          
+          y_scores(np.array(float)): 2-d array where rows are samples and each column are
+          the probabilities that each corresponding y_tests value = 1 for a particular model
+          
+          model_names(list(str)): list of size y_tests.shape[1] = y_scores.shape[1]
+          which are the names of the models used to generate each score column. If no model
+          names are passed in (default), generic names of the form "model x" will be created
+          where x is an integer in [0, y_tests.shape[1])
+
+          colors(list(str)): a list of colors. If None (default) function will use the 10 color
+          Tableau pallette: grey or grey, brown, orange, olive, green, cyan, blue, purple, pink, red
+
+    Returns:
+        2-tuple: First item is a matplotlib.pyplot object which has a show() method which renders the plot.
+        Second item is a dict with keys that are the model_names and values that are the AUC
+        of the True Positive Rate vs False Positive Rate (ROC) curve for that model.
+                 
+    """
+    
+    # ensure single dim vectors are 1D column vectors so they can be sliced consistenly later on
+    if len(y_tests.shape) == 1:
+        y_tests = y_tests.reshape(-1, 1)
+    if len(y_scores.shape) == 1:
+        y_scores = y_scores.reshape(-1, 1)
+        
+    n_models = y_scores.shape[1]
+    
+    # check shapes of the true labels (y_test) and model-computed probabilities (y_scores)
+    if y_tests.shape[1] > 1 and y_scores.shape[1] != y_tests.shape[1]:
+        print("get_roc_curves ERROR: ")
+        print("y_tests has {} columns, y_scores has {} columns".format(y_tests.shape[1],
+                                                                       y_scores))
+        return False
+    elif y_tests.shape[1] == 1 and y_scores.shape[1] > 1:
+        print("DEBUG get_roc_curves: BEFORE expanding y_tests from 1 to {} columns".format(y_scores.shape[1]))
+        # If y_tests is a single column vector and n_models > 1, add copies of the single y_tests column
+        y_tests = np.reshape(y_tests, (-1, 1))
+        print("DEBUG get_roc_curves: BEFORE expansion, y_tests shape = {}".format(y_tests.shape))
+        y_expanded = np.copy(y_tests)
+        print("DEBUG get_roc_curves: BEFORE expansion, y_expanded shape = {}".format(y_expanded.shape))
+        for i in range(n_models-1):
+            y_expanded = np.hstack((y_expanded, y_tests))
+            print("DEBUG get_roc_curves: DURING expansion, i = {} ".format(i))
+            print("DEBUG get_roc_curves: DURING expansion, y_expanded shape = {} ".format(y_expanded.shape))
+        y_tests = y_expanded
+        print("DEBUG get_roc_curves: AFTER expansion, y_tests columns = {} ".format(y_tests.shape[1]))
+    
+    print(f"Comparing {n_models} models")
+    # If no model names are passed in, create generic names
+    if model_names == None:
+        model_names = ['model' + str(i) for i in range(n_models)]
+    
+    plt.figure()
+    
+    # set default plot size - https://stackoverflow.com/questions/36367986
+    plt.rcParams['figure.figsize'] = [10, 10]
+    
+    lw = 2
+    if colors == None:
+        # https://stackoverflow.com/questions/22408237/named-colors-in-matplotlib
+        colors = ['tab:grey', 'tab:blue', 'tab:orange', 'tab:red', 'tab:purple',
+                  'tab:green', 'tab:cyan', 'tab:brown', 'tab:olive', 'tab:pink']
+    
+    color_count = len(colors)
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    # compute true pos rate and false pos rate over range of thresholds and AUC for each model
+    for i in range(n_models):
+        fpr[i], tpr[i], _ = roc_curve(y_tests[:, i], y_scores[:, i])
+        roc_auc[model_names[i]] = auc(fpr[i], tpr[i])
+    
+    # plot reference line: random classifier
+    plt.plot([0, 1], [0, 1], color=colors[0], lw=lw, linestyle='--')
+    # add traces for each model
+    for j in range(0, n_models):
+        plt.plot(fpr[j], tpr[j], color=colors[j % color_count + 1],
+                 lw=lw, label=model_names[j] + ' (AUC = %0.2f)' % roc_auc[model_names[j]])
+    
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate', fontsize=14)
+    plt.ylabel('True Positive Rate', fontsize=14)
+    plt.title(plot_title, fontsize=14)
+    plt.legend(loc="lower right", fontsize=14)
+    
+    return plt, roc_auc
+
+
+
