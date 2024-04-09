@@ -89,16 +89,14 @@ feats_matrix_aug.txt  7485 rows where each row is a vectorized tweet padded to
                       twitter embedding and the empty string is used as the
                       padding token.  1500 cols are the tweets padded to 30
                       tokens which are each converted to a 50d GloVe embedding
-feats_matrix_train_train.txt  80% of the original training data used to train each model,
-                              same vectorization as feats_matrix_aug.txt,
-                              xxxx rows
-                              yyyy columns
-feats_matrix_train_test.txt   20% of the original training data used to test each model
-                              xxxx rows
-                              yyyy columns
+feats_matrix_train_train.txt  80% of the original training data used to train each
+                              model, same vectorization as feats_matrix_aug.txt,
+                              5988 rows, 1500 columns
+feats_matrix_train_test.txt   20% of the original training data used to test each
+                              model, same vectorization as feats_matrix_aug.txt,
+                              1497 rows, 1500 columns
 feats_matrix_test.txt         unlabeled test data provided by kaggle to test submissions
-                              xxxx rows
-                              yyyy columns
+                              3263 rows, 1500 columns
 labels_aug.txt          labels corresponding to feats_matrix_aug.txt
 labels_train_train.txt  labels corresponding to feats_matrix_train_train.txt
 labels_train_test.txt   labels corresponding to feats_matrix_train_test.txt
