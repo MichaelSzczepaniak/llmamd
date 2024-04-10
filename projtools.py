@@ -6,6 +6,7 @@ import pandas as pd
 import random as rand
 import spacy as sp
 import time
+import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import roc_curve, auc, roc_auc_score
 from openai import OpenAI
@@ -1060,7 +1061,9 @@ def make_tweet_feats(list_of_vectors):
     return(v_matrix)
 
 
-def get_roc_curves(y_tests, y_scores, model_names=None, plot_title='Comparing Model ROCs', colors=None):
+def get_roc_curves(y_tests, y_scores, model_names=None,
+                   plot_title='Comparing Model ROCs', colors=None,
+                   x_size=8, y_size=8, save_fig=True):
     """
     Creates a plot of ROC curves and their corresponding AUC values for a set of models.
 
@@ -1082,6 +1085,13 @@ def get_roc_curves(y_tests, y_scores, model_names=None, plot_title='Comparing Mo
 
           colors(list(str)): a list of colors. If None (default) function will use the 10 color
           Tableau pallette: grey or grey, brown, orange, olive, green, cyan, blue, purple, pink, red
+          
+          x_size (int): horizontal plot scaling
+          
+          y_size (int): vertical plot scaling
+          
+          save_fig (boolean): If True (default), saves the figure as a png file
+          to the same dir as caller. If False, file is not saved.
 
     Returns:
         2-tuple: First item is a matplotlib.pyplot object which has a show() method which renders the plot.
@@ -1125,8 +1135,7 @@ def get_roc_curves(y_tests, y_scores, model_names=None, plot_title='Comparing Mo
     
     plt.figure()
     
-    # set default plot size - https://stackoverflow.com/questions/36367986
-    plt.rcParams['figure.figsize'] = [10, 10]
+    plt.figure(figsize=(x_size, y_size))
     
     lw = 2
     if colors == None:
@@ -1156,6 +1165,11 @@ def get_roc_curves(y_tests, y_scores, model_names=None, plot_title='Comparing Mo
     plt.ylabel('True Positive Rate', fontsize=14)
     plt.title(plot_title, fontsize=14)
     plt.legend(loc="lower right", fontsize=14)
+    
+    if save_fig:
+        plot_file_name = plot_title.replace(' ', '_') + '.png'
+        print(f"saving plot to {plot_file_name}")
+        plt.savefig(plot_file_name)
     
     return plt, roc_auc
 
