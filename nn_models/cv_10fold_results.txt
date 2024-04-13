@@ -1,0 +1,57 @@
+10-fold CV results of ReLU vs Sigmoid activation
+
+ReLU accuracy: 0.7786
+ReLU accuracy: 0.7971
+ReLU accuracy: 0.8186
+ReLU accuracy: 0.8115
+ReLU accuracy: 0.8568
+ReLU accuracy: 0.8282
+ReLU accuracy: 0.8162
+ReLU accuracy: 0.8783
+ReLU accuracy: 0.8616
+ReLU accuracy: 0.9165
+
+sigmoid accuracy: 0.7762
+sigmoid accuracy: 0.8067
+sigmoid accuracy: 0.7971
+sigmoid accuracy: 0.7661
+sigmoid accuracy: 0.8401
+sigmoid accuracy: 0.8091
+sigmoid accuracy: 0.8544
+sigmoid accuracy: 0.8377
+sigmoid accuracy: 0.8282
+sigmoid accuracy: 0.8377
+
+   ReLU accuracy: 83.63%, std dev: 3.94%
+sigmoid accuracy: 81.53%, std dev: 2.78%
+CV on two models took 39.82 minutes to run
+
+--------------------------------------------------------------------------------
+
+10-fold CV results of 100 vs. 300 hidden layer units
+
+ReLU with 100 hidden units - accuracy: 0.7738
+ReLU with 100 hidden units - accuracy: 0.8568
+ReLU with 100 hidden units - accuracy: 0.8544
+ReLU with 100 hidden units - accuracy: 0.8019
+ReLU with 100 hidden units - accuracy: 0.9332
+ReLU with 100 hidden units - accuracy: 0.9523
+ReLU with 100 hidden units - accuracy: 0.9451
+ReLU with 100 hidden units - accuracy: 0.9403
+ReLU with 100 hidden units - accuracy: 0.9117
+ReLU with 100 hidden units - accuracy: 0.9379
+
+ReLU with 300 hidden units - accuracy: 0.7952
+ReLU with 300 hidden units - accuracy: 0.8807
+ReLU with 300 hidden units - accuracy: 0.9236
+ReLU with 300 hidden units - accuracy: 0.9045
+ReLU with 300 hidden units - accuracy: 0.9021
+ReLU with 300 hidden units - accuracy: 0.9141
+ReLU with 300 hidden units - accuracy: 0.9451
+ReLU with 300 hidden units - accuracy: 0.9093
+ReLU with 300 hidden units - accuracy: 0.8950
+ReLU with 300 hidden units - accuracy: 0.9021
+
+ReLU with 100 hidden units - overall accuracy: 89.07%, std dev: 6.14%
+ReLU with 300 hidden units - overall accuracy: 89.72%, std dev: 3.77%
+CV on two models took 52.72 minutes to run
