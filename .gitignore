@@ -19,3 +19,6 @@ embeddings_models/
 
 # spacy stuff you can get online
 docs/spacy*
+
+# large feature matrices are too big to store in the repo
+data/feats_*
