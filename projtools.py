@@ -6,10 +6,16 @@ import pandas as pd
 import random as rand
 import spacy as sp
 import time
+from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import roc_curve, auc, roc_auc_score
 from openai import OpenAI
+import copy
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import tqdm
 
 def fix_spillover_lines(list_of_lines):
     """ Fixes lines read in from a file that should be on a single line.
@@ -1100,7 +1106,7 @@ def get_roc_curves(y_tests, y_scores, model_names=None,
                  
     """
     
-    # ensure single dim vectors are 1D column vectors so they can be sliced consistenly later on
+    # ensure single dim vectors are 1D column vectors so they can be sliced consistently later on
     if len(y_tests.shape) == 1:
         y_tests = y_tests.reshape(-1, 1)
     if len(y_scores.shape) == 1:
@@ -1174,4 +1180,68 @@ def get_roc_curves(y_tests, y_scores, model_names=None,
     return plt, roc_auc
 
 
+def nn_train(model, X_train, y_train, X_val, y_val,
+             n_epochs=250, batch_size=10, name='nn_model.pth'):
+    """
+    Trains a neural network model over n_epochs using mini-batch gradient
+    descent and returns the best accuracy.  Adapted from:
+    https://machinelearningmastery.com/building-a-binary-classification-model-in-pytorch/
+    
+    Args:
+    model (torch.nn.modules.container.Sequential): pytorch model built with Sequential class
+    X_train (): training partition of feature tensor
+    y_train (): training partition of labels tensor
+    X_val (): validation partition of feature tensor
+    y_val (): validation partition of labels tensor
+    n_epochs (int): number of passes through the training data to make while training
+    batch_size (int): number of samples in a (mini) batch
 
+    Returns:
+    Accuracy of the best model
+    """
+    # loss function and optimizer
+    loss_fn = nn.BCELoss()  # binary cross entropy
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+ 
+    # Hold the best model
+    best_acc = -np.inf   # init to negative infinity
+    best_model = None
+    # mark out the start of each batch
+    batch_starts = torch.arange(0, len(X_train), batch_size)
+
+    for epoch in range(n_epochs):
+        model.train()   # put model in training mode
+        with tqdm.tqdm(batch_starts, unit="batch", mininterval=0, disable=True) as bar:
+            bar.set_description(f"Epoch {epoch}")
+            for batch in bar:
+                # take a batch
+                X_batch = X_train[batch:batch+batch_size]
+                y_batch = y_train[batch:batch+batch_size]
+                # forward pass
+                y_pred = model(X_batch)
+                loss = loss_fn(y_pred, y_batch)
+                # backward pass
+                optimizer.zero_grad()  # reset to zero for each batch, otherwise accumulates
+                loss.backward()
+                # update the weights
+                optimizer.step()
+                # sum up the correct predictions
+                acc = (y_pred.round() == y_batch).float().mean()
+                # report progress
+                bar.set_postfix(
+                    loss=float(loss),
+                    acc=float(acc)
+                )
+        # evaluate accuracy after each epoch
+        model.eval()
+        y_pred = model(X_val)  # validation prediction
+        acc = (y_pred.round() == y_val).float().mean()
+        acc = float(acc)
+        if acc > best_acc:
+            best_acc = acc
+            best_model = model
+            best_weights = copy.deepcopy(best_model.state_dict())
+    # load and return the best accuracy and model
+    model.load_state_dict(best_weights)
+    
+    return(best_acc, best_model)
