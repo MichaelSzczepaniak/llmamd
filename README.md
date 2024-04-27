@@ -10,7 +10,7 @@ The table below describes the main files of the analysis:
 
 | File | Description |
 |-------|------------|
-| docs/Final_paper.pdf | report summarizing the all the work done in this project |
+| docs/Final_paper.pdf | report summarizing all the work done in this project |
 | docs/Research_Paper.pdf | report describing the details of approach and methodology used for this project |
 | docs/project_proposal.pdf | initial proposal for the project (note: ChatGPT was used instead of Hugging Face model) |
 | docs/data_quality_profiling.pdf | initial exploratory data analysis (EDA) of the kaggle disaster data |
