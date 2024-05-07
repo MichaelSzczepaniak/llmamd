@@ -1,0 +1,26 @@
+
+Feedback for Data profiling and quality report (2024-02-28):
+
+Very well done.  I wonder if the hashtags are throwing off the augmented responses.  They contain information about the disaster - #earthquake - and are not simply trailing entries.
+
+--------------------------------------------------------------------------------
+
+Feedback for Research paper on project methodology including citations (2024-03-27):
+
+Well done, Michael.  You have a lot of methodology to cover and you handled it.  This is one of the more interesting projects I have seen.
+
+--------------------------------------------------------------------------------
+
+Feedback on final paper (2024-04-22):
+
+This is one of the most creative project I have seen in this class.  You had a very interesting approach and this is a great paper.  I enjoyed discussing it with you.
+
+I think the Kaggle dataset was a bit frustrating as things were tagged as disasters that would not have been if a human did the tagging.  At least you had the benefit of using the Kaggle scoring to see how it compared.  Would be an interesting project to see how the results would differ if it was hand scored.  Also found it interesting that the original and original + augmented ROC curves crossed several times on the neural network.
+
+--------------------------------------------------------------------------------
+
+Feedback on final presentation (2024-05-02)
+
+I like your development of the scenario and your audience.  The presentation was good but on the long side.  I would suggest putting the "so what" at the beginning if you want to go into more details as the audience will have the needed information at the beginning.  The presentation mainly covered your modeling process which is not what this audience needs to know.  They do not need to know about model that didn't work.  The goal here was to focus on what you want the audience to do as a result of your work.  You have that in the conclusions but it is a bit buried. The main content would make a great conference presentation. 
+
+Wishing you the best as you move on from this course.
