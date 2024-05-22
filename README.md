@@ -2,11 +2,9 @@
 
 This project was created to test the hypothesis that an LLM can be used to enhance the performance of simpler text classifiers.  This is done by using ChatGPT 3.5 Turbo as the LLM to programatically generate text that augments the original training data.
 
-The LLM is used to generate the number of samples that are originally present in the training data effectively doubling the training samples.  The LLM is prompted to generate text samples in two specific ways.  The first way directs the LLM to generate samples from the positive class.  The second way directs the LLM to generate samples from the LLM to generate samples from the negative class.
+The LLM is used to generate the number of samples that are originally present in the training data effectively doubling the training samples.  The LLM is prompted to generate text samples in two specific ways.  The first way directs the LLM to generate samples from the positive class.  The second way directs the LLM to generate samples from the negative class.
 
-The iterations of the prompts used for each of these generation scenarios are found in the file: `data/prompt_log.csv`
-
-The table below describes the main files of the analysis:
+The iterations of the prompts used for each of these generation scenarios are found in the file: `data/prompt_log.csv`. The final results are based on the last version (5). The table below describes the main files of the analysis:
 
 | File | Description |
 |-------|------------|
